@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SPA IMBELLIS · 7월 촬영 구성안</title>
+<style>
+@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css');
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --gold:#B8964E; --gold-soft:#C9A86A; --ink:#1a1a1a; --gray:#6b6b6b;
+  --line:#e8e4dc; --cream:#FAF8F4; --softbg:#F2F0EC; --mocha:#5C4F42;
+  --greige:#D8D2C8;
+}
+body{font-family:'Pretendard',-apple-system,sans-serif; background:#fff; color:var(--ink); line-height:1.65; -webkit-font-smoothing:antialiased}
+.wrap{max-width:960px; margin:0 auto; padding:0 24px}
+
+/* Cover */
+.cover{padding:60px 0 36px; border-bottom:2px solid var(--ink)}
+.cover .brand{font-size:12px; letter-spacing:6px; color:var(--gold); font-weight:700; margin-bottom:14px}
+.cover h1{font-size:32px; font-weight:800; letter-spacing:-1px; line-height:1.3}
+.cover .sub{font-size:15px; color:var(--gray); margin-top:10px}
+.meta{display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin-top:28px}
+.meta .m{background:var(--cream); border:1px solid var(--line); border-radius:10px; padding:16px 14px}
+.meta .ml{font-size:11px; color:var(--gray); letter-spacing:1px; margin-bottom:6px; font-weight:600}
+.meta .mv{font-size:15px; font-weight:700}
+
+/* Section */
+.section{padding:44px 0; border-bottom:1px solid var(--line)}
+.sec-num{font-size:11px; letter-spacing:3px; color:var(--gold); font-weight:700; margin-bottom:6px}
+.sec-title{font-size:22px; font-weight:800; letter-spacing:-0.5px; margin-bottom:6px}
+.sec-desc{font-size:14px; color:var(--gray); margin-bottom:24px}
+
+/* Purpose cards */
+.purpose{display:grid; grid-template-columns:repeat(3,1fr); gap:12px}
+.pc{border:1px solid var(--line); border-radius:10px; padding:18px}
+.pc .pt{font-size:14px; font-weight:700; margin-bottom:6px}
+.pc .pt::before{content:'●'; color:var(--gold); font-size:9px; margin-right:7px; vertical-align:2px}
+.pc .pd{font-size:13px; color:var(--gray)}
+
+/* Timeline */
+.tl{position:relative; margin-top:8px}
+.tblock{display:grid; grid-template-columns:150px 1fr; gap:0; border:1px solid var(--line); border-radius:12px; margin-bottom:12px; overflow:hidden}
+.ttime{background:var(--ink); color:#fff; padding:20px 16px; display:flex; flex-direction:column; justify-content:center}
+.ttime .tt{font-size:16px; font-weight:800; letter-spacing:0.5px}
+.ttime .td{font-size:11px; color:var(--gold-soft); margin-top:4px; font-weight:600}
+.tbody{padding:18px 22px; background:#fff}
+.tbody h4{font-size:16px; font-weight:800; margin-bottom:4px}
+.tbody .tsub{font-size:12px; color:var(--gold); font-weight:700; letter-spacing:1px; margin-bottom:12px}
+.shots{display:flex; flex-direction:column; gap:7px}
+.shot{display:flex; gap:10px; font-size:13.5px; align-items:baseline}
+.shot .sn{flex-shrink:0; font-weight:800; color:var(--gold); font-size:12px; min-width:26px}
+.shot .sc{color:#333}
+.shot .sg{color:var(--gray); font-size:12px}
+.usebadge{display:inline-block; background:var(--softbg); border:1px solid var(--line); border-radius:20px; padding:2px 10px; font-size:11px; font-weight:600; color:var(--mocha); margin:2px 3px 0 0}
+
+/* Gear table */
+table{width:100%; border-collapse:collapse; font-size:13.5px}
+th{background:var(--softbg); text-align:left; padding:12px 14px; font-weight:700; font-size:12.5px; border-bottom:1px solid var(--line)}
+td{padding:12px 14px; border-bottom:1px solid var(--line); color:#333; vertical-align:top}
+tr:last-child td{border-bottom:none}
+.tw{border:1px solid var(--line); border-radius:12px; overflow:hidden}
+
+/* Must cuts */
+.must{display:grid; grid-template-columns:repeat(3,1fr); gap:12px}
+.mc{background:linear-gradient(135deg,#1a1a1a,#2e2a24); color:#fff; border-radius:12px; padding:22px 20px}
+.mc .mn{font-size:11px; letter-spacing:2px; color:var(--gold-soft); font-weight:700; margin-bottom:10px}
+.mc .mt{font-size:15px; font-weight:800; margin-bottom:8px; line-height:1.4}
+.mc .md{font-size:12.5px; color:#bbb; line-height:1.6}
+
+/* Checklist */
+.check{display:grid; grid-template-columns:1fr 1fr; gap:10px}
+.ck{display:flex; gap:10px; align-items:flex-start; padding:13px 16px; border:1px solid var(--line); border-radius:10px; font-size:13.5px}
+.ck::before{content:'☐'; color:var(--gold); font-size:15px; font-weight:700}
+
+/* Notice */
+.notice{background:var(--softbg); border-left:3px solid var(--gold); border-radius:0 10px 10px 0; padding:18px 22px; margin-top:22px; font-size:13.5px; color:#444}
+.notice b{color:var(--ink)}
+
+.foot{text-align:center; padding:36px 0 56px; color:var(--gray); font-size:12.5px}
+.foot .fb{font-size:11px; letter-spacing:3px; color:var(--gold); font-weight:700; margin-bottom:5px}
+
+@media(max-width:680px){
+  .meta{grid-template-columns:repeat(2,1fr)}
+  .purpose,.must,.check{grid-template-columns:1fr}
+  .tblock{grid-template-columns:1fr}
+  .ttime{flex-direction:row; gap:10px; align-items:center; padding:12px 16px}
+  .cover h1{font-size:24px}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- Cover -->
+  <div class="cover">
+    <div class="brand">SPA IMBELLIS × ARTREN</div>
+    <h1>7월 브랜드 촬영 구성안</h1>
+    <div class="sub">7–8월 콘텐츠 통합 소스 확보 · 원데이 촬영 플랜</div>
+    <div class="meta">
+      <div class="m"><div class="ml">촬영 시간</div><div class="mv">10:30 – 13:00</div></div>
+      <div class="m"><div class="ml">총 러닝타임</div><div class="mv">150분</div></div>
+      <div class="m"><div class="ml">모델</div><div class="mv">한국인 여성 모델 1명</div></div>
+      <div class="m"><div class="ml">장소</div><div class="mv">오크우드 프리미어 2F</div></div>
+    </div>
+  </div>
+
+  <!-- 1. 촬영 목적 -->
+  <div class="section">
+    <div class="sec-num">01 PURPOSE</div>
+    <div class="sec-title">촬영 목적</div>
+    <div class="sec-desc">한 번의 촬영으로 7월 잔여 콘텐츠와 8월 콘텐츠 전량을 커버하는 통합 소스 확보가 목표입니다.</div>
+    <div class="purpose">
+      <div class="pc"><div class="pt">7월 콘텐츠 완성</div><div class="pd">비포애프터, 옥시젯, POV 풀코스, BTS 등 7월 캘린더 잔여 8건 소스 확보</div></div>
+      <div class="pc"><div class="pt">8월 소스 선확보</div><div class="pd">시즌 중립 컷(시술·공간·디테일) 중심으로 8월 재편집 가능한 범용 소스 축적</div></div>
+      <div class="pc"><div class="pt">이벤트 소재</div><div class="pd">7월 기프트 프로모션 및 월말 전환 콘텐츠용 공간·프라이빗 무드 컷 확보</div></div>
+    </div>
+  </div>
+
+  <!-- 2. 타임테이블 -->
+  <div class="section">
+    <div class="sec-num">02 TIMETABLE</div>
+    <div class="sec-title">촬영 타임테이블</div>
+    <div class="sec-desc">시술 순서는 모델 헤어·메이크업 상태를 고려해 [옥시젯 → 바디 → 헤드스파] 순으로 배치했습니다. 헤드스파는 모발이 젖는 시술이므로 반드시 마지막입니다.</div>
+
+    <div class="tl">
+
+      <div class="tblock">
+        <div class="ttime"><div class="tt">10:30 – 10:45</div><div class="td">15분 · 준비</div></div>
+        <div class="tbody">
+          <h4>세팅 & 모델 브리핑</h4>
+          <div class="tsub">SETUP</div>
+          <div class="shots">
+            <div class="shot"><span class="sn">—</span><span class="sc">룸 클린 셋업 점검 (케이블·장비 앵글 밖 정리, 린넨 정돈)</span></div>
+            <div class="shot"><span class="sn">—</span><span class="sc">조명 확인 — 창측 자연광 + 웜톤 보조광 세팅</span></div>
+            <div class="shot"><span class="sn">—</span><span class="sc">모델 동선·표정 톤 브리핑 (눈 감은 이완 표정 위주, 과한 연기 배제)</span></div>
+            <div class="shot"><span class="sn">—</span><span class="sc">Rode Wireless Pro 시술 베드 근접 배치 · 레벨 테스트</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tblock">
+        <div class="ttime"><div class="tt">10:45 – 11:15</div><div class="td">30분 · 씬 1</div></div>
+        <div class="tbody">
+          <h4>옥시젯 페이셜</h4>
+          <div class="tsub">Z6III 메인 + ZR 서브 고정</div>
+          <div class="shots">
+            <div class="shot"><span class="sn">S1</span><span class="sc">미스트 역광 분사 컷 — 측면 45도, 입자 산란 강조</span> <span class="sg">85mm</span></div>
+            <div class="shot"><span class="sn">S2</span><span class="sc">디바이스 안면 글라이딩 클로즈업 (골드 팁 중심)</span> <span class="sg">80-200mm</span></div>
+            <div class="shot"><span class="sn">S3</span><span class="sc">시술 직후 이마·광대 광채 반사 클로즈업</span> <span class="sg">85mm</span></div>
+            <div class="shot"><span class="sn">S4</span><span class="sc">세럼 도포 → 흡수 매크로 (수분 질감)</span> <span class="sg">80-200mm</span></div>
+            <div class="shot"><span class="sn">S5</span><span class="sc">테라피스트 손 림프 드레니지 슬로우모션</span> <span class="sg">ZR 120fps</span></div>
+          </div>
+          <div style="margin-top:12px">
+            <span class="usebadge">7/10 옥시젯 릴스</span><span class="usebadge">7/12 회복 루틴</span><span class="usebadge">7/24 프로모</span><span class="usebadge">8월 페이셜 전반</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="tblock">
+        <div class="ttime"><div class="tt">11:15 – 11:40</div><div class="td">25분 · 씬 2</div></div>
+        <div class="tbody">
+          <h4>바디 테라피</h4>
+          <div class="tsub">Z6III 메인 + ZR 디테일</div>
+          <div class="shots">
+            <div class="shot"><span class="sn">S6</span><span class="sc">오일 도포 → 등 라인 글라이딩 슬로우 컷</span> <span class="sg">85mm</span></div>
+            <div class="shot"><span class="sn">S7</span><span class="sc">전완 딥티슈 압박 — 근육 이완 순간</span> <span class="sg">24-70mm</span></div>
+            <div class="shot"><span class="sn">S8</span><span class="sc">타월 정돈·부드러운 압 디테일</span> <span class="sg">80-200mm</span></div>
+            <div class="shot"><span class="sn">S9</span><span class="sc">오일 방울 낙하 매크로 (ASMR 소스)</span> <span class="sg">ZR + Rode</span></div>
+          </div>
+          <div style="margin-top:12px">
+            <span class="usebadge">7/22 POV 풀코스</span><span class="usebadge">8월 바디 콘텐츠</span><span class="usebadge">범용 무드컷</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="tblock">
+        <div class="ttime"><div class="tt">11:40 – 12:20</div><div class="td">40분 · 씬 3 (메인)</div></div>
+        <div class="tbody">
+          <h4>헤드스파 — 최대 비중</h4>
+          <div class="tsub">Z6III + ZR 동시 운용 · Rode 낙수음 필수 수음</div>
+          <div class="shots">
+            <div class="shot"><span class="sn">S10</span><span class="sc">워터헤일로 낙수 정면 클로즈업 (후크 소스, 3테이크 이상)</span> <span class="sg">85mm</span></div>
+            <div class="shot"><span class="sn">S11</span><span class="sc">워터헤일로 측면 와이드 — 스팀 + 공간 무드</span> <span class="sg">24-70mm</span></div>
+            <div class="shot"><span class="sn">S12</span><span class="sc">거품 딥클렌징 — 손끝 마사지 디테일</span> <span class="sg">80-200mm</span></div>
+            <div class="shot"><span class="sn">S13</span><span class="sc">두피 스케일링 전/후 매크로 (비포애프터 핵심)</span> <span class="sg">80-200mm</span></div>
+            <div class="shot"><span class="sn">S14</span><span class="sc">모델 이완 표정 — 눈 감은 상반신 컷</span> <span class="sg">85mm</span></div>
+            <div class="shot"><span class="sn">S15</span><span class="sc">POV 시점 — 고객 눈높이 천장·헤일로 앵글</span> <span class="sg">Osmo P4</span></div>
+            <div class="shot"><span class="sn">S16</span><span class="sc">마무리 타월 드라이 + 정돈된 머릿결</span> <span class="sg">85mm</span></div>
+          </div>
+          <div style="margin-top:12px">
+            <span class="usebadge">7/5 비포애프터</span><span class="usebadge">7/22 POV</span><span class="usebadge">7/26 예약 전환</span><span class="usebadge">8월 헤드스파 전반</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="tblock">
+        <div class="ttime"><div class="tt">12:20 – 12:40</div><div class="td">20분 · 씬 4</div></div>
+        <div class="tbody">
+          <h4>공간 & BTS & 오크우드 자산</h4>
+          <div class="tsub">Osmo Pocket 4 기동 + Z6III 스틸</div>
+          <div class="shots">
+            <div class="shot"><span class="sn">S17</span><span class="sc">룸 세팅 BTS — 린넨 정돈·아로마 분사·조도 조절 과정</span> <span class="sg">Osmo P4</span></div>
+            <div class="shot"><span class="sn">S18</span><span class="sc">오크우드 복도 → 스파 입구 워킹 트랜지션</span> <span class="sg">Osmo P4</span></div>
+            <div class="shot"><span class="sn">S19</span><span class="sc">호텔 창밖 뷰 + 로비 무드 스틸</span> <span class="sg">24-70mm</span></div>
+            <div class="shot"><span class="sn">S20</span><span class="sc">제품·도구 정물 클로즈업 (스틸 5컷 이상)</span> <span class="sg">80-200mm</span></div>
+          </div>
+          <div style="margin-top:12px">
+            <span class="usebadge">7/15 스테이케이션</span><span class="usebadge">7/17 공간 무드컷</span><span class="usebadge">7/19 BTS 릴스</span><span class="usebadge">플레이스 사진</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="tblock">
+        <div class="ttime"><div class="tt">12:40 – 13:00</div><div class="td">20분 · 예비</div></div>
+        <div class="tbody">
+          <h4>보충 촬영 & 현장 검수</h4>
+          <div class="tsub">BUFFER</div>
+          <div class="shots">
+            <div class="shot"><span class="sn">—</span><span class="sc">부족 컷 재촬영 (우선순위: S10 워터헤일로 → S13 매크로 → S1 미스트)</span></div>
+            <div class="shot"><span class="sn">—</span><span class="sc">현장 푸티지 검수 — 노출·포커스·오디오 레벨 확인</span></div>
+            <div class="shot"><span class="sn">—</span><span class="sc">모델 추가 표정·손 디테일 인서트 컷</span></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- 3. 필수 확보 컷 -->
+  <div class="section">
+    <div class="sec-num">03 MUST-HAVE</div>
+    <div class="sec-title">필수 확보 3컷</div>
+    <div class="sec-desc">이 3컷이 없으면 7월 핵심 콘텐츠 제작이 불가합니다. 시간이 부족할 경우 이 순서로 우선 확보합니다.</div>
+    <div class="must">
+      <div class="mc">
+        <div class="mn">PRIORITY 1</div>
+        <div class="mt">워터헤일로 낙수 클로즈업 + 원음</div>
+        <div class="md">모든 헤드스파 릴스의 후크 소스. Rode 근접 수음으로 낙수음 원본 필수. 최소 3테이크.</div>
+      </div>
+      <div class="mc">
+        <div class="mn">PRIORITY 2</div>
+        <div class="mt">두피 스케일링 전/후 매크로</div>
+        <div class="md">7/5 비포애프터 릴스의 핵심 증명 컷. 동일 구도·동일 조명으로 전후 촬영.</div>
+      </div>
+      <div class="mc">
+        <div class="mn">PRIORITY 3</div>
+        <div class="mt">옥시젯 미스트 역광</div>
+        <div class="md">7/10 릴스 후크 + 8월 페이셜 콘텐츠 범용. 측면 45도 역광으로 입자 산란 포착.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4. 장비 운용 -->
+  <div class="section">
+    <div class="sec-num">04 EQUIPMENT</div>
+    <div class="sec-title">장비 운용 계획</div>
+    <div class="sec-desc">2캠 동시 운용으로 동일 시술에서 메인 앵글과 디테일 앵글을 한 번에 확보합니다.</div>
+    <div class="tw">
+      <table>
+        <thead><tr><th style="width:22%">장비</th><th style="width:30%">운용 방식</th><th>담당 컷</th></tr></thead>
+        <tbody>
+          <tr><td><b>Nikon Z6 III</b><br><span style="color:var(--gray);font-size:12px">메인</span></td><td>삼각대 + 핸드헬드 병행<br>A롤 · 브랜드 스틸</td><td>인물 이완 컷, 시술 메인 앵글, 공간 스틸, 제품 정물</td></tr>
+          <tr><td><b>Nikon ZR</b><br><span style="color:var(--gray);font-size:12px">서브 · 시네마</span></td><td>고정 서브 앵글 상시 롤링<br>120fps 슬로우모션</td><td>시술 디테일 B롤, 오일·거품·물 슬로우, 매크로 질감</td></tr>
+          <tr><td><b>Osmo Pocket 4</b><br><span style="color:var(--gray);font-size:12px">기동</span></td><td>짐벌 워킹 · POV</td><td>BTS, 오크우드 복도 트랜지션, 고객 시점 POV</td></tr>
+          <tr><td><b>Rode Wireless Pro</b><br><span style="color:var(--gray);font-size:12px">오디오</span></td><td>시술 베드 근접 고정<br>32-bit float 상시 녹음</td><td>워터헤일로 낙수음, 거품 ASMR, 오일 도포음</td></tr>
+          <tr><td><b>DJI Mic Mini ×2</b><br><span style="color:var(--gray);font-size:12px">서브 오디오</span></td><td>Osmo 결합 + 공간음</td><td>BTS 현장음, 룸 앰비언스</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="tw" style="margin-top:14px">
+      <table>
+        <thead><tr><th style="width:22%">렌즈</th><th>씬별 배정</th></tr></thead>
+        <tbody>
+          <tr><td><b>85mm</b></td><td>워터헤일로 후크, 인물 이완 컷, 광채 클로즈업 — 심도 중심 뷰티샷</td></tr>
+          <tr><td><b>80-200mm</b></td><td>두피·세럼 매크로, 제품 정물, 디바이스 디테일 — 압축감·질감</td></tr>
+          <tr><td><b>24-70mm</b></td><td>공간 와이드, 시술 전신 앵글, 로비·창밖 스틸 — 전천후</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- 5. 콘텐츠 매핑 -->
+  <div class="section">
+    <div class="sec-num">05 CONTENT MAP</div>
+    <div class="sec-title">촬영분 → 콘텐츠 매핑</div>
+    <div class="sec-desc">이번 촬영 소스가 커버하는 7월 발행 콘텐츠와 8월 활용 범위입니다.</div>
+    <div class="tw">
+      <table>
+        <thead><tr><th style="width:14%">발행일</th><th style="width:42%">콘텐츠</th><th>사용 씬</th></tr></thead>
+        <tbody>
+          <tr><td>7/5</td><td>[헤드스파] 땀에 절은 두피, 30분의 변화 — 비포애프터 릴스</td><td>S10 · S12 · S13 · S16</td></tr>
+          <tr><td>7/10</td><td>[옥시젯] 휴가 전날, 광채를 채우는 2분 — 미스트 역광 릴스</td><td>S1 · S2 · S3</td></tr>
+          <tr><td>7/12</td><td>휴가 후 손상 피부, 회복 루틴 — 무드컷</td><td>S4 · S20</td></tr>
+          <tr><td>7/15</td><td>비행기값 없이 떠나는 휴가 — 공간 트랜지션 릴스</td><td>S18 · S19 · S11</td></tr>
+          <tr><td>7/17</td><td>오크우드 2층, 가장 조용한 곳 — 무드컷 + 플레이스</td><td>S19 · S17</td></tr>
+          <tr><td>7/19</td><td>[BTS] 한 분만을 위한 룸 — 룸 세팅 릴스</td><td>S17 · S8</td></tr>
+          <tr><td>7/22</td><td>여름 끝자락, 나를 위한 90분 — POV 풀코스 릴스</td><td>S15 · S5 · S6 · S14</td></tr>
+          <tr><td>7/24·26</td><td>7월 이벤트 프로모 + 예약 전환 콘텐츠</td><td>S10 · S3 · S19</td></tr>
+          <tr><td style="color:var(--gold);font-weight:700">8월</td><td>시즌 중립 소스 재편집 — 헤드스파·옥시젯·바디·공간 전 카테고리</td><td>전체 씬 (S1–S20)</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="notice">
+      <b>8월 활용 원칙</b> — 이번 촬영은 여름 시즌 소품·문구를 화면에 넣지 않는 <b>시즌 중립 구성</b>입니다. 자막과 캡션만 교체하면 8월 콘텐츠로 전량 재활용 가능합니다.
+    </div>
+  </div>
+
+  <!-- 6. 사전 체크리스트 -->
+  <div class="section">
+    <div class="sec-num">06 CHECKLIST</div>
+    <div class="sec-title">촬영 전 준비 요청사항</div>
+    <div class="sec-desc">원활한 진행을 위해 촬영일 전 아래 항목의 확인을 부탁드립니다.</div>
+    <div class="check">
+      <div class="ck">시술 룸 1개 10:30–13:00 사용 확보 (예약 블록)</div>
+      <div class="ck">워터헤일로 · 옥시젯 장비 정상 작동 확인</div>
+      <div class="ck">테라피스트 1명 시술 시연 협조 (유니폼 착용)</div>
+      <div class="ck">린넨 · 타월 신품급 준비 (화면 노출용)</div>
+      <div class="ck">제품 · 도구 정물 촬영용 세팅 협조</div>
+      <div class="ck">오크우드 복도 · 로비 촬영 가능 여부 사전 확인</div>
+      <div class="ck">모델 헤어 — 촬영 당일 스타일링 최소화 (헤드스파 씬 고려)</div>
+      <div class="ck">룸 내 불필요 집기 · 케이블 사전 정리</div>
+    </div>
+  </div>
+
+  <div class="foot">
+    <div class="fb">ARTREN</div>
+    <div>스파임벨리스 7월 브랜드 촬영 구성안 · 문의 최지훈 디렉터</div>
+  </div>
+
+</div>
+</body>
+</html>
