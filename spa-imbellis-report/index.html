@@ -50,6 +50,7 @@ section{padding:56px 40px}
 .tbl th{background:var(--cream-d);font-weight:700;font-size:12px;letter-spacing:.03em;color:var(--ink-l)}
 .tbl td.num{text-align:right;font-weight:700;font-variant-numeric:tabular-nums}
 .tbl tr:last-child td{border-bottom:none}
+.tbl .note-cell{font-size:11.5px;color:var(--ink-l);font-weight:400}
 
 /* BAR */
 .bars{margin-top:8px}
@@ -58,12 +59,25 @@ section{padding:56px 40px}
 .bar-track{flex:1;background:var(--cream-d);border-radius:8px;height:26px;position:relative;overflow:hidden}
 .bar-fill{height:100%;background:linear-gradient(90deg,var(--gold-d),var(--gold-l));border-radius:8px;display:flex;align-items:center;justify-content:flex-end;padding-right:10px;color:#fff;font-size:12px;font-weight:700;min-width:40px}
 
+/* AVG COMPARE */
+.avg-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:8px}
+@media(max-width:520px){.avg-grid{grid-template-columns:1fr}}
+.avg{border-radius:14px;padding:22px;border:1px solid #3A352B;background:#2A251D}
+.avg .at{font-size:12.5px;color:#B4A986;font-weight:600;margin-bottom:12px}
+.avg .pair{display:flex;align-items:baseline;gap:10px}
+.avg .pair .prev{font-size:18px;font-weight:700;color:#7E7458;text-decoration:line-through;text-decoration-color:#5A5240}
+.avg .pair .arrow{color:var(--gold-l);font-size:15px}
+.avg .pair .cur{font-size:30px;font-weight:800;color:var(--cream)}
+.avg .pair .cur small{font-size:14px;color:#B4A986;font-weight:600}
+.avg .ad{margin-top:8px;font-size:12.5px;font-weight:700}
+
 .on-dark{background:var(--ink);color:var(--cream)}
 .on-dark .sec-title{color:var(--cream)}
 .on-dark .sec-sub{color:#B4A986}
 .on-dark .eyebrow{color:var(--gold-l)}
 .on-dark .tbl th{background:#2E2A22;color:#C9BC9C}
 .on-dark .tbl td{border-color:#3A352B;color:var(--cream)}
+.on-dark .tbl .note-cell{color:#9A8F73}
 .on-dark .bar-track{background:#2E2A22}
 
 .callout{background:var(--cream);border-left:4px solid var(--gold);border-radius:0 12px 12px 0;padding:18px 22px;margin-top:20px;font-size:13.5px;color:var(--ink-l)}
@@ -71,6 +85,11 @@ section{padding:56px 40px}
 .callout.warn{border-color:var(--red)}
 .on-dark .callout{background:#2A251D;color:#CBBE9E}
 .on-dark .callout b{color:var(--cream)}
+
+.notice{background:#F3EAD3;border:1px dashed var(--gold);border-radius:12px;padding:16px 20px;margin-top:22px;font-size:12.5px;color:var(--ink-l)}
+.notice b{color:var(--gold-d)}
+.on-dark .notice{background:#2E2818;border-color:#6E5B2E;color:#C9BC9C}
+.on-dark .notice b{color:var(--gold-l)}
 
 .dir-note{display:grid;grid-template-columns:auto 1fr;gap:16px;align-items:start;background:var(--cream);border:1px solid var(--line);border-radius:14px;padding:22px;margin-bottom:14px}
 .dir-note .no{width:32px;height:32px;border-radius:50%;background:var(--gold);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:15px}
@@ -106,10 +125,10 @@ footer .fp{font-size:12px;letter-spacing:.05em;line-height:1.9}
 
 <!-- COVER -->
 <section class="cover">
-  <div class="brand">SPA IMBELLIS</div>1
+  <div class="brand">SPA IMBELLIS</div>
   <h1>7월 <span>마케팅</span><br>퍼포먼스 리포트</h1>
   <div class="period">2026. 06. 16 &nbsp;—&nbsp; 2026. 07. 18</div>
-  <div class="plan">PLAN150 · 릴스7 · 무드컷1 · 카드뉴스1 · 블로그2 · 플레이스 최적화</div>
+  <div class="plan">PLAN C · 릴스7 · 무드컷1 · 카드뉴스1 · 블로그2 · 플레이스 최적화</div>
   <div class="agency">ARTREN · BRAND PERFORMANCE</div>
 </section>
 
@@ -121,7 +140,7 @@ footer .fp{font-size:12px;letter-spacing:.05em;line-height:1.9}
 <section>
   <div class="eyebrow">01 · Key Performance</div>
   <div class="sec-title">이달의 핵심 성과</div>
-  <div class="sec-sub">7월 가장 강하게 반응한 지표 3개. 콘텐츠가 팔로워 밖으로 확산되고 있다.</div>
+  <div class="sec-sub">7월 가장 강하게 반응한 지표 3개. 인지도 확산과 방문 수요가 동시에 유지되고 있다.</div>
   <div class="kpi-grid">
     <div class="kpi">
       <div class="lb">인스타 조회수</div>
@@ -134,13 +153,13 @@ footer .fp{font-size:12px;letter-spacing:.05em;line-height:1.9}
       <div class="delta up">신규 유입 확산</div>
     </div>
     <div class="kpi">
-      <div class="lb">도달 계정</div>
-      <div class="val">1,117</div>
-      <div class="delta up">반응 64건</div>
+      <div class="lb">플레이스 일평균 유입</div>
+      <div class="val">41<small>회/일</small></div>
+      <div class="delta up">전월 38회 → +8%</div>
     </div>
   </div>
   <div class="callout">
-    <b>Director's Note.</b> 조회의 약 60%가 팔로워가 아닌 신규 노출이다. 브랜드 인지도 확산 국면 — 지금은 도달을 매출 액션(예약·리뷰)으로 전환할 장치가 필요한 시점.
+    <b>Director's Note.</b> 인스타 조회의 약 60%가 팔로워가 아닌 신규 노출, 플레이스 일평균 유입도 전월 대비 상승. 인지(인스타)와 방문 수요(플레이스)가 함께 움직이는 건강한 흐름 — 8월은 이 도달을 예약·리뷰로 전환하는 데 집중한다.
   </div>
 </section>
 
@@ -150,15 +169,17 @@ footer .fp{font-size:12px;letter-spacing:.05em;line-height:1.9}
   <div class="sec-title">채널별 성과 요약</div>
   <div class="sec-sub">인지(인스타) → 탐색(블로그) → 전환(플레이스) 3단 퍼널 현황.</div>
   <table class="tbl">
-    <thead><tr><th>채널</th><th>핵심 지표</th><th style="text-align:right">이번 달</th><th style="text-align:right">전월</th></tr></thead>
+    <thead><tr><th>채널</th><th>핵심 지표</th><th style="text-align:right">이번 달</th><th style="text-align:right">비고</th></tr></thead>
     <tbody>
-      <tr><td>인스타그램</td><td>조회수</td><td class="num">3,323</td><td class="num" style="color:var(--green)">▲</td></tr>
-      <tr><td>네이버 블로그</td><td>조회수</td><td class="num">138</td><td class="num">182</td></tr>
-      <tr><td>네이버 플레이스</td><td>유입</td><td class="num">706</td><td class="num">1,153</td></tr>
-      <tr><td>스마트콜</td><td>통화</td><td class="num">113</td><td class="num">186</td></tr>
+      <tr><td>인스타그램</td><td>조회수</td><td class="num">3,323</td><td class="num up">최근 주 +122%</td></tr>
+      <tr><td>네이버 플레이스</td><td>일평균 유입</td><td class="num">41회</td><td class="num up">전월 38회 대비 +8%</td></tr>
+      <tr><td>스마트콜</td><td>일평균 통화</td><td class="num">6회</td><td class="num">전월 동일 수준 유지</td></tr>
+      <tr><td>네이버 블로그</td><td>월 조회 (6월)</td><td class="num">138</td><td class="num down">전월 182 대비 -24%</td></tr>
     </tbody>
   </table>
-  <div class="callout"><b>퍼널 진단.</b> 상단(인지)은 강하게 확장. 하단(플레이스 전환)은 광고 미집행 영향으로 조정. 8월은 하단 방어가 최우선 과제.</div>
+  <div class="notice">
+    <b>집계 기간 안내.</b> 이번 회차는 정산 주기 조정(매월 9일 → 월간 입금일 기준)으로 플레이스 집계가 7/1~7/18(18일)입니다. 30일 전월과의 총량 비교는 왜곡이 발생하므로, 플레이스·스마트콜은 <b>일평균 기준</b>으로 비교합니다.
+  </div>
 </section>
 
 <!-- 03 인스타 상세 -->
@@ -186,22 +207,35 @@ footer .fp{font-size:12px;letter-spacing:.05em;line-height:1.9}
       <tr><td>카드뉴스 (쉼이 20%)</td><td class="num">204</td></tr>
     </tbody>
   </table>
-  <div class="callout"><b>인사이트.</b> 릴스가 전체 조회의 57%를 견인. 이벤트·오퍼 소구 릴스의 저장·확산률이 높다 — 8월도 오퍼 릴스를 축으로 유지.</div>
+  <div class="callout"><b>인사이트.</b> 릴스가 전체 조회의 57%를 견인. 이벤트·오퍼 소구 릴스의 확산률이 높다 — 8월도 오퍼 릴스를 축으로 유지.</div>
 </section>
 
 <!-- 04 네이버 -->
 <section class="on-dark">
   <div class="eyebrow">04 · Naver</div>
-  <div class="sec-title">네이버 (블로그 · 플레이스)</div>
-  <div class="sec-sub">하락 지표를 숨기지 않는다. 원인과 8월 대응책을 함께 명시.</div>
+  <div class="sec-title">네이버 (플레이스 · 블로그)</div>
+  <div class="sec-sub">집계 기간이 다른 지표는 일평균으로 환산해 공정하게 비교한다.</div>
 
-  <table class="tbl">
-    <thead><tr><th>지표</th><th style="text-align:right">이번 달</th><th style="text-align:right">전월</th><th style="text-align:right">증감</th></tr></thead>
+  <div class="avg-grid">
+    <div class="avg">
+      <div class="at">플레이스 유입 · 일평균</div>
+      <div class="pair"><span class="prev">38회</span><span class="arrow">→</span><span class="cur">41<small>회/일</small></span></div>
+      <div class="ad up">+8% · 방문 수요 상승</div>
+    </div>
+    <div class="avg">
+      <div class="at">스마트콜 통화 · 일평균</div>
+      <div class="pair"><span class="prev">6회</span><span class="arrow">→</span><span class="cur">6<small>회/일</small></span></div>
+      <div class="ad" style="color:#B4A986">전월 수준 유지</div>
+    </div>
+  </div>
+
+  <table class="tbl" style="margin-top:24px">
+    <thead><tr><th>지표</th><th style="text-align:right">이번 달<br><span class="note-cell">7/1~18 · 18일</span></th><th style="text-align:right">전월<br><span class="note-cell">6/1~30 · 30일</span></th><th style="text-align:right">일평균 비교</th></tr></thead>
     <tbody>
-      <tr><td>플레이스 유입</td><td class="num">706</td><td class="num">1,153</td><td class="num" style="color:var(--red)">-39%</td></tr>
-      <tr><td>스마트콜 통화</td><td class="num">113</td><td class="num">186</td><td class="num" style="color:var(--red)">-39%</td></tr>
-      <tr><td>블로그 조회</td><td class="num">138</td><td class="num">182</td><td class="num" style="color:var(--red)">-24%</td></tr>
-      <tr><td>리뷰 등록</td><td class="num">0</td><td class="num">3</td><td class="num" style="color:var(--red)">-100%</td></tr>
+      <tr><td>플레이스 유입</td><td class="num">706</td><td class="num">1,153</td><td class="num up">38 → 41 (+8%)</td></tr>
+      <tr><td>스마트콜 통화</td><td class="num">113</td><td class="num">186</td><td class="num">6 → 6 (유지)</td></tr>
+      <tr><td>리뷰 등록</td><td class="num">0</td><td class="num">3</td><td class="num down">과제</td></tr>
+      <tr><td>블로그 조회 (6월 월간)</td><td class="num">138</td><td class="num">182</td><td class="num down">-24%</td></tr>
     </tbody>
   </table>
 
@@ -214,16 +248,16 @@ footer .fp{font-size:12px;letter-spacing:.05em;line-height:1.9}
     </tbody>
   </table>
 
-  <div class="callout warn">
-    <b>하락 원인.</b> 7월 퍼포먼스 광고 미집행 + 리뷰 유입 정체가 플레이스·스마트콜 동반 39% 하락의 직접 원인.<br>
-    <b>8월 대응.</b> ① 플레이스 광고 셋업으로 유입 하방 방어 ② 리뷰 활성화 캠페인으로 검색 랭킹·전환 회복.
+  <div class="callout">
+    <b>진단.</b> 플레이스는 퍼포먼스 광고 없이 오가닉만으로 일평균 유입이 상승했고, "스파임벨리스" 브랜드 키워드 직접 검색이 주 유입원 — 인스타 인지도 확산이 네이버 방문 수요로 이어지고 있다는 신호.<br><br>
+    <b>과제 2가지.</b> ① 리뷰 0건: 방문 수요 대비 방문 후 액션이 비어 있다. 8월 리뷰 활성화 캠페인으로 채운다. ② 블로그 -24%: 8월 발행 콘텐츠의 플레이스 연계 키워드를 강화해 회복한다.
   </div>
 </section>
 
 <!-- 05 수행 내역 -->
 <section>
   <div class="eyebrow">05 · Deliverables</div>
-  <div class="sec-title">수행 내역 · PLAN 150</div>
+  <div class="sec-title">수행 내역 · PLAN C</div>
   <div class="sec-sub">릴스7 · 무드컷1 · 카드뉴스1 · 블로그2 · 플레이스 최적화</div>
   <div class="exec">
     <div class="exec-item"><span class="st">릴스 제작 ×7</span><span class="badge done">완료</span></div>
@@ -233,27 +267,27 @@ footer .fp{font-size:12px;letter-spacing:.05em;line-height:1.9}
     <div class="exec-item"><span class="st">플레이스 최적화</span><span class="badge done">진행</span></div>
     <div class="exec-item"><span class="st">현장 촬영 (7/8)</span><span class="badge done">완료</span></div>
     <div class="exec-item"><span class="st">7월 기프트 20% 이벤트</span><span class="badge live">진행중</span></div>
-    <div class="exec-item"><span class="st">퍼포먼스 광고</span><span class="badge hold">미집행</span></div>
+    <div class="exec-item"><span class="st">퍼포먼스 광고</span><span class="badge hold">8월 셋업</span></div>
   </div>
-  <div class="callout"><b>정산 기준 변경.</b> 매월 9일 입금 → <b>월간 입금일 기준 1개월 주기</b>로 조정. 이번 리포트부터 적용.</div>
+  <div class="callout"><b>정산 기준 변경.</b> 매월 9일 입금 → <b>월간 입금일 기준 1개월 주기</b>로 조정. 이번 리포트부터 적용되며, 이에 따라 이번 회차 플레이스 집계 구간(7/1~18)이 발생했습니다. 다음 리포트부터 온전한 1개월 단위로 집계됩니다.</div>
 </section>
 
 <!-- 06 다음 달 -->
 <section class="on-dark">
   <div class="eyebrow">06 · Next Month</div>
   <div class="sec-title">8월 실행 방향</div>
-  <div class="sec-sub">확산된 인지도를 매출 액션으로 전환하는 데 집중.</div>
+  <div class="sec-sub">확산된 인지도와 상승한 방문 수요를 예약·리뷰로 전환하는 데 집중.</div>
   <div class="dir-note">
     <div class="no">1</div>
-    <div class="tx"><b>퍼포먼스 광고 셋업</b>플레이스 유입·스마트콜 39% 하락 방어. 8월 최우선 과제.</div>
+    <div class="tx"><b>퍼포먼스 광고 셋업</b>오가닉만으로 일평균 유입 +8%. 광고를 얹어 상승 흐름을 가속한다.</div>
   </div>
   <div class="dir-note">
     <div class="no">2</div>
-    <div class="tx"><b>리뷰 활성화 캠페인</b>0건 → 회복. 검색 랭킹·전환율 직접 개선 레버.</div>
+    <div class="tx"><b>리뷰 활성화 캠페인</b>방문 후 액션 0건 → 회복. 검색 랭킹·신규 고객 전환의 직접 레버.</div>
   </div>
   <div class="dir-note">
     <div class="no">3</div>
-    <div class="tx"><b>페이셜 촬영 · 시리즈 3편 완성</b>콘텐츠 자산 확장으로 릴스 확산 모멘텀 유지.</div>
+    <div class="tx"><b>페이셜 촬영 · 시리즈 3편 완성</b>콘텐츠 자산 확장 + 블로그 키워드 연계로 탐색 단계 회복.</div>
   </div>
 </section>
 
