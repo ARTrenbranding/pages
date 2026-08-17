@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>ARTren 내부 · 8/19 촬영 실행 보드</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#181D1B; --panel:#212826; --panel2:#1C2321; --line:#2E3835; --line2:#3C4744;
+  --txt:#E4E8E6; --dim:#8D9A95; --sage:#8FAA9E; --brass:#C9AE79;
+  --red:#D9776A; --amber:#D6A94E; --green:#7FA98C;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--txt);font-family:"Noto Sans KR",-apple-system,sans-serif;
+  font-weight:300;line-height:1.65;-webkit-font-smoothing:antialiased;letter-spacing:-.01em}
+.mono{font-family:"JetBrains Mono",monospace}
+.wrap{max-width:1180px;margin:0 auto;padding:0 24px}
+
+header.top{padding:40px 0 28px;border-bottom:1px solid var(--line)}
+.kicker{font-size:10.5px;letter-spacing:.28em;color:var(--brass);font-weight:500}
+header.top h1{font-size:29px;font-weight:400;margin-top:12px;letter-spacing:-.02em}
+header.top .sub{font-size:13px;color:var(--dim);margin-top:8px}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(126px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);margin-top:24px}
+.stat{background:var(--panel);padding:14px 16px}
+.stat .v{font-size:21px;font-weight:400;letter-spacing:-.02em}
+.stat .k{font-size:10.5px;color:var(--dim);margin-top:3px;letter-spacing:.06em}
+.stat.warn .v{color:var(--amber)} .stat.bad .v{color:var(--red)} .stat.ok .v{color:var(--green)}
+
+section{padding:44px 0;border-bottom:1px solid var(--line)}
+.sh{display:flex;align-items:baseline;gap:14px;margin-bottom:22px;flex-wrap:wrap}
+.sh .no{font-size:10.5px;letter-spacing:.2em;color:var(--brass);font-weight:500}
+.sh h2{font-size:19px;font-weight:500;letter-spacing:-.01em}
+.sh p{font-size:12.5px;color:var(--dim);width:100%;margin-top:-4px}
+
+table{width:100%;border-collapse:collapse;font-size:13px}
+th{text-align:left;font-size:10.5px;letter-spacing:.1em;color:var(--dim);font-weight:500;padding:9px 12px;border-bottom:1px solid var(--line2);white-space:nowrap;background:var(--panel2)}
+td{padding:11px 12px;border-bottom:1px solid var(--line);vertical-align:top;color:#CBD3D0}
+tr:hover td{background:var(--panel2)}
+td strong{font-weight:500;color:var(--txt)}
+.tbl-scroll{overflow-x:auto;border:1px solid var(--line)}
+tr.smp td{background:#1E2A28}
+tr.smp:hover td{background:#22302D}
+
+.chip{display:inline-block;font-size:10.5px;padding:2px 8px;border:1px solid var(--line2);border-radius:2px;letter-spacing:.04em;white-space:nowrap}
+.chip.a{color:var(--brass);border-color:#5A4E33}
+.chip.b{color:var(--dim)}
+.chip.hold{color:var(--red);border-color:#5C3A34}
+.chip.ok{color:var(--green);border-color:#3B5343}
+.chip.wait{color:var(--amber);border-color:#5C4A26}
+.chip.gate{color:var(--sage);border-color:#42574F}
+
+.diff{border:1px solid var(--line)}
+.diff-row{display:grid;grid-template-columns:150px 1fr 1fr 118px;border-bottom:1px solid var(--line)}
+.diff-row:last-child{border-bottom:none}
+.diff-row > div{padding:13px 14px;font-size:12.5px}
+.diff-row .f{color:var(--dim);font-size:11.5px;letter-spacing:.04em;background:var(--panel2)}
+.diff-row .old{color:#8D9A95;text-decoration:line-through;text-decoration-color:#4A5552}
+.diff-row .new{color:var(--txt)}
+.diff-row .imp{text-align:right}
+.diff-head{display:grid;grid-template-columns:150px 1fr 1fr 118px;background:var(--panel2);border-bottom:1px solid var(--line2)}
+.diff-head div{padding:9px 14px;font-size:10.5px;letter-spacing:.1em;color:var(--dim);font-weight:500}
+
+.tl{border:1px solid var(--line)}
+.tl-row{display:grid;grid-template-columns:112px 40px 1fr 1.1fr 1fr;border-bottom:1px solid var(--line)}
+.tl-row:last-child{border-bottom:none}
+.tl-row > div{padding:12px 13px;font-size:12.5px;color:#CBD3D0}
+.tl-row .t{color:var(--sage);font-size:12px}
+.tl-row .m{color:var(--dim);font-size:11.5px;text-align:right}
+.tl-row .g{font-weight:400;color:var(--txt)}
+.tl-row .cam{color:var(--dim);font-size:11.5px}
+.tl-row .out{font-size:11.5px;color:var(--brass)}
+.tl-row.core{background:#1F2A26}
+.tl-row.smpb{background:#252A22}
+.tl-head{display:grid;grid-template-columns:112px 40px 1fr 1.1fr 1fr;background:var(--panel2);border-bottom:1px solid var(--line2)}
+.tl-head div{padding:9px 13px;font-size:10.5px;letter-spacing:.1em;color:var(--dim);font-weight:500}
+.tl-phase{background:var(--panel2);padding:8px 14px;font-size:10.5px;letter-spacing:.16em;
+  color:var(--brass);font-weight:500;border-bottom:1px solid var(--line)}
+.tl-phase span{color:var(--dim);letter-spacing:.02em;font-weight:300;margin-left:10px}
+
+.filters{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:16px}
+.fbtn{background:var(--panel);border:1px solid var(--line2);color:var(--dim);font-family:inherit;
+  font-size:11.5px;padding:6px 13px;cursor:pointer;letter-spacing:.03em;border-radius:2px;transition:.15s}
+.fbtn:hover{color:var(--txt);border-color:var(--sage)}
+.fbtn.on{background:var(--sage);color:#131817;border-color:var(--sage);font-weight:500}
+.fbtn:focus-visible{outline:2px solid var(--brass);outline-offset:2px}
+.shots{display:grid;grid-template-columns:repeat(auto-fill,minmax(258px,1fr));gap:10px}
+.shot{background:var(--panel);border:1px solid var(--line);padding:14px 15px;position:relative;transition:.15s}
+.shot:hover{border-color:var(--line2)}
+.shot.done{opacity:.4}
+.shot.isSmp{border-left:2px solid var(--sage)}
+.shot .id{font-size:11px;letter-spacing:.1em;color:var(--brass);font-weight:500}
+.shot .nm{font-size:13.5px;margin-top:6px;color:var(--txt);font-weight:400;line-height:1.45}
+.shot .meta{font-size:11.5px;color:var(--dim);margin-top:9px}
+.shot .use{font-size:11px;color:var(--sage);margin-top:6px}
+.shot .cb{position:absolute;top:13px;right:13px;width:15px;height:15px;cursor:pointer;accent-color:var(--sage)}
+.counter{font-size:12px;color:var(--dim);margin-bottom:14px}
+.counter b{color:var(--sage);font-weight:500}
+
+.risks{display:grid;grid-template-columns:repeat(auto-fit,minmax(288px,1fr));gap:12px}
+.risk{background:var(--panel);border:1px solid var(--line);border-left:2px solid var(--line2);padding:16px 17px}
+.risk.hi{border-left-color:var(--red)} .risk.mid{border-left-color:var(--amber)} .risk.lo{border-left-color:var(--sage)}
+.risk .lv{font-size:10.5px;letter-spacing:.14em;color:var(--dim);font-weight:500}
+.risk.hi .lv{color:var(--red)} .risk.mid .lv{color:var(--amber)} .risk.lo .lv{color:var(--sage)}
+.risk h4{font-size:14px;font-weight:500;margin-top:8px;line-height:1.4}
+.risk p{font-size:12.5px;color:var(--dim);margin-top:8px;line-height:1.6}
+.risk .fix{font-size:12px;color:#CBD3D0;margin-top:10px;padding-top:10px;border-top:1px solid var(--line)}
+.risk .fix b{color:var(--sage);font-weight:400}
+
+.gate{border:1px solid #42574F;background:#1E2A28;padding:20px 22px;margin-top:6px}
+.gate h4{font-size:14px;font-weight:500;color:var(--sage);letter-spacing:.02em}
+.gate ol{margin:14px 0 0 18px;font-size:13px;color:#CBD3D0}
+.gate li{padding:5px 0}
+.gate li b{color:var(--txt);font-weight:500}
+.gate .warn{font-size:12.5px;color:var(--amber);margin-top:14px;padding-top:12px;border-top:1px solid var(--line)}
+
+footer{padding:36px 0 60px;font-size:11.5px;color:var(--dim);text-align:center;letter-spacing:.04em}
+
+@media (max-width:820px){
+  .diff-row,.diff-head{grid-template-columns:1fr}
+  .diff-row .imp{text-align:left}
+  .diff-head{display:none}
+  .diff-row .old::before{content:"이전 · ";color:#5A6663;text-decoration:none}
+  .diff-row .new::before{content:"현재 · ";color:var(--dim)}
+  .tl-row,.tl-head{grid-template-columns:100px 1fr}
+  .tl-head{display:none}
+  .tl-row .m{text-align:left}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="top">
+  <div class="kicker">ARTren INTERNAL · 외부 배포 금지</div>
+  <h1>8/19 1회차 촬영 실행 보드</h1>
+  <div class="sub">개정 2026-08-17 · 09:30 도착 / 10:00–12:00 모델 코어 2시간 / 13:20 종료 · SMP 촬영 및 발행 진행 · 자연광 우선</div>
+  <div class="stats">
+    <div class="stat ok"><div class="v">36</div><div class="k">총 필수샷</div></div>
+    <div class="stat"><div class="v">26</div><div class="k">A등급 · 90% 목표</div></div>
+    <div class="stat"><div class="v">3h50</div><div class="k">총 촬영 시간</div></div>
+    <div class="stat"><div class="v">120</div><div class="k">모델 코어 분</div></div>
+    <div class="stat warn"><div class="v">12</div><div class="k">인터뷰 Q</div></div>
+    <div class="stat"><div class="v">12%</div><div class="k">SMP 비중</div></div>
+    <div class="stat warn"><div class="v">5</div><div class="k">미확정 잠금</div></div>
+  </div>
+</header>
+
+<!-- 01 변경 감지 -->
+<section>
+  <div class="sh">
+    <div class="no">01</div><h2>직전 버전 대비 변경</h2>
+    <p>2026-08-17 사용자 지시 반영. 이전 실행안(08-16)과 PHASE5 값을 아래 항목에 한해 덮어씀.</p>
+  </div>
+  <div class="diff">
+    <div class="diff-head"><div>영역</div><div>이전값</div><div>신규 확정값</div><div>영향</div></div>
+
+    <div class="diff-row">
+      <div class="f">1회차 발행 시작</div>
+      <div class="old">2026-08-17</div>
+      <div class="new">2026-08-19 · 촬영 당일 첫 게시</div>
+      <div class="imp"><span class="chip a">9건 전면 재배치</span></div>
+    </div>
+    <div class="diff-row">
+      <div class="f">발행일 전체</div>
+      <div class="old">17 / 19 / 21 / 23 / 26 / 29 / 31 · 09-01 / 03</div>
+      <div class="new">19 / 21 / 23 / 25 / 27 / 29 / 31 · 09-01 / 03</div>
+      <div class="imp"><span class="chip ok">2일 등간격</span></div>
+    </div>
+    <div class="diff-row">
+      <div class="f">SMP 외부 공개</div>
+      <div class="old">전면 HOLD · 콘텐츠 8건 대체 필요</div>
+      <div class="new">촬영 및 발행 진행 · 비중 최소화 · 발행 전 원장 확인 게이트</div>
+      <div class="imp"><span class="chip gate">게이트 신설</span></div>
+    </div>
+    <div class="diff-row">
+      <div class="f">모델 촬영 시간</div>
+      <div class="old">58분 (10:00–10:58)</div>
+      <div class="new">120분 (10:00–12:00)</div>
+      <div class="imp"><span class="chip ok">과정 여유 확보</span></div>
+    </div>
+    <div class="diff-row">
+      <div class="f">총 촬영 시간</div>
+      <div class="old">09:30–12:00 · 2h30</div>
+      <div class="new">09:30–13:20 · 3h50</div>
+      <div class="imp"><span class="chip a">일정 재공유</span></div>
+    </div>
+    <div class="diff-row">
+      <div class="f">모델 동의서</div>
+      <div class="old">원장 확보 필요 · HIGH 리스크</div>
+      <div class="new">ARTren 지참 · 현장 직접 수령</div>
+      <div class="imp"><span class="chip ok">리스크 해제</span></div>
+    </div>
+    <div class="diff-row">
+      <div class="f">인터뷰 질문</div>
+      <div class="old">Q1–Q10 · SMP-A는 내부 보류</div>
+      <div class="new">Q1–Q12 · SMP 질문 2건 정식 편입</div>
+      <div class="imp"><span class="chip ok">25분 → 30분</span></div>
+    </div>
+    <div class="diff-row">
+      <div class="f">필수샷</div>
+      <div class="old">33건</div>
+      <div class="new">36건 · M01–M03 SMP 상담 신설</div>
+      <div class="imp"><span class="chip a">샷리스트 갱신</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- 02 SMP 게이트 -->
+<section>
+  <div class="sh">
+    <div class="no">02</div><h2>SMP 운영 게이트</h2>
+    <p>촬영과 발행은 진행하되, 다른 콘텐츠와 다른 검수 절차를 적용한다. 이 절차를 건너뛴 SMP 게시물은 발행하지 않는다.</p>
+  </div>
+
+  <div class="gate">
+    <h4>발행 전 4단계 검수</h4>
+    <ol>
+      <li><b>D-4 · 편집 1차</b> — 자막·나레이션에서 금지 표현 스크리닝. 치료 / 완치 / 발모 / 모발 재생 / 영구적 / 평생 유지 / 절대 번지지 않음 / 효과 보장 / 착색 및 유지력이 높아짐 / 탈모 극복.</li>
+      <li><b>D-3 · 화면 검수</b> — 시술 장면, 전후 비교, 바늘 접촉, 혈흔, 두피 질환 오인 화면이 한 프레임도 없는지 확인.</li>
+      <li><b>D-2 · 원장 확인 요청</b> — 완성본을 원장에게 송부. 회신 없이는 발행하지 않는다.</li>
+      <li><b>D-0 · 발행</b> — 가격은 온라인에서 상담가로만 안내. 부위별 기준가는 매장 인쇄물 한정.</li>
+    </ol>
+    <div class="warn">1회차 적용 대상: 09-03 릴스 1건. 원장 확인 요청 마감은 09-01. 회신이 없으면 대체 주제 '상담부터 시작하는 이유'(Q3 · C01–C04 O03)로 즉시 교체한다.</div>
+  </div>
+
+  <div style="margin-top:16px" class="tbl-scroll">
+  <table>
+    <thead><tr><th>구분</th><th>촬영</th><th>발행</th><th>근거</th></tr></thead>
+    <tbody>
+      <tr class="smp"><td><strong>상담 장면</strong></td><td><span class="chip ok">진행</span></td><td><span class="chip gate">게이트 후</span></td><td>부위 확인 · 범위 설명 · 거울 · 도면</td></tr>
+      <tr class="smp"><td><strong>도구 · 위생 준비</strong></td><td><span class="chip ok">진행</span></td><td><span class="chip gate">게이트 후</span></td><td>바늘 미노출 · 정돈된 트레이 한정</td></tr>
+      <tr class="smp"><td><strong>원장 설명 인터뷰</strong></td><td><span class="chip ok">진행</span></td><td><span class="chip gate">게이트 후</span></td><td>Q11 · Q12</td></tr>
+      <tr class="smp"><td><strong>실제 시술</strong></td><td><span class="chip hold">제외</span></td><td><span class="chip hold">제외</span></td><td>별도 동의 · 범위 확정 전</td></tr>
+      <tr class="smp"><td><strong>전후 비교</strong></td><td><span class="chip hold">제외</span></td><td><span class="chip hold">제외</span></td><td>효과 보장 오인</td></tr>
+      <tr class="smp"><td><strong>부위별 기준가</strong></td><td>—</td><td><span class="chip hold">온라인 제외</span></td><td>매장 A4 뒷면 한정 · 온라인은 상담가</td></tr>
+    </tbody>
+  </table>
+  </div>
+</section>
+
+<!-- 03 타임라인 -->
+<section>
+  <div class="sh">
+    <div class="no">03</div><h2>촬영 타임라인 · 장비 운용</h2>
+    <p>A캠 Z6 III + 24-120 / B캠 ZR + 50mm / 매크로 MC105 / 무빙 Pocket 4 / 오디오 Wireless PRO 32-bit float 내부녹음 · 전 구간 N-Log · 수동 WB</p>
+  </div>
+  <div class="tl">
+    <div class="tl-head"><div>시각</div><div>분</div><div>구간</div><div>카메라 · 오디오</div><div>산출</div></div>
+
+    <div class="tl-phase">준비<span>09:30 – 10:00 · 30분</span></div>
+    <div class="tl-row">
+      <div class="t mono">09:30–09:45</div><div class="m">15</div>
+      <div class="g">도착 · 언로딩</div>
+      <div class="cam">A캠 우선 세팅 · 룸톤 30초 · Wireless PRO 점검</div>
+      <div class="out">—</div>
+    </div>
+    <div class="tl-row">
+      <div class="t mono">09:45–09:55</div><div class="m">10</div>
+      <div class="g">자연광 · 색 기준 잠금</div>
+      <div class="cam">그레이카드 → 수동 WB · 천장등 OFF/ON 비교 · 창 노출 브라케팅</div>
+      <div class="out">전체 색 일관성</div>
+    </div>
+    <div class="tl-row">
+      <div class="t mono">09:55–10:00</div><div class="m">5</div>
+      <div class="g">모델 브리핑 · 동의서 수령</div>
+      <div class="cam">카메라 OFF · ARTren 지참 동의서 서명</div>
+      <div class="out">초상권 잠금</div>
+    </div>
+
+    <div class="tl-phase">모델 코어<span>10:00 – 12:00 · 120분</span></div>
+    <div class="tl-row core">
+      <div class="t mono">10:00–10:10</div><div class="m">10</div>
+      <div class="g">모델 히어로 · 호수뷰</div>
+      <div class="cam">Z6 24-120 / ZR 50mm · 무음 · 세로 안전영역</div>
+      <div class="out">L01 L02 P01 · 배너01 03 · 책자 P1</div>
+    </div>
+    <div class="tl-row core">
+      <div class="t mono">10:10–10:25</div><div class="m">15</div>
+      <div class="g">상담 재연</div>
+      <div class="cam">오버숄더 · 손 · 두피 클로즈 · 대화 자연음 1테이크</div>
+      <div class="out">C01–C04 · 릴스 08-25 자료화면</div>
+    </div>
+    <div class="tl-row core">
+      <div class="t mono">10:25–10:40</div><div class="m">15</div>
+      <div class="g">유메 샴푸대 · 준비</div>
+      <div class="cam">Z6 미디엄 + MC105 교체 · 물 · 타월 ASMR</div>
+      <div class="out">Y01–Y03 · 무드컷 09-01</div>
+    </div>
+    <div class="tl-row core">
+      <div class="t mono">10:40–11:15</div><div class="m">35</div>
+      <div class="g">헤드스파 핵심 과정</div>
+      <div class="cam">ZR 세로 지속 · Z6 단계별 클로즈 · 거품/물 ASMR</div>
+      <div class="out">H01–H06 · 릴스 08-27 08-31 메인</div>
+    </div>
+    <div class="tl-row core">
+      <div class="t mono">11:15–11:30</div><div class="m">15</div>
+      <div class="g">마무리 · 모델 뷰티</div>
+      <div class="cam">50mm 뷰티 · Pocket 슬로우 팔로우</div>
+      <div class="out">F01–F03 · 릴스 엔딩 공용</div>
+    </div>
+    <div class="tl-row smpb">
+      <div class="t mono">11:30–11:45</div><div class="m">15</div>
+      <div class="g">SMP 상담 재연</div>
+      <div class="cam">중립 프레이밍 · 거울/도면 · 바늘 프레임 인 금지</div>
+      <div class="out">M01–M03 · 릴스 09-03</div>
+    </div>
+    <div class="tl-row">
+      <div class="t mono">11:45–12:00</div><div class="m">15</div>
+      <div class="g">픽업 · 모델 랩</div>
+      <div class="cam">미디어 · 오디오 체크 · A등급 누락 우선 재촬영</div>
+      <div class="out">2회차 픽업 목록화</div>
+    </div>
+
+    <div class="tl-phase">원장 · 공간<span>12:00 – 13:20 · 80분</span></div>
+    <div class="tl-row core">
+      <div class="t mono">12:00–12:30</div><div class="m">30</div>
+      <div class="g">원장 인터뷰 Q1–Q12</div>
+      <div class="cam">Z6 정면 29.97 / ZR 35–45도 · 호수 배경 · 답변 전후 2초</div>
+      <div class="out">Q1 Q3 Q4 Q5 Q6 Q9 Q10 필수 · Q11 Q12 SMP</div>
+    </div>
+    <div class="tl-row">
+      <div class="t mono">12:30–12:45</div><div class="m">15</div>
+      <div class="g">원장 업무 B-roll</div>
+      <div class="cam">MC105 손 디테일 · Pocket 팔로우 · 종이/도구 자연음</div>
+      <div class="out">O02–O04 · 인터뷰 덮개</div>
+    </div>
+    <div class="tl-row">
+      <div class="t mono">12:45–13:05</div><div class="m">20</div>
+      <div class="g">매장 · 호수 · 외관 동선</div>
+      <div class="cam">Pocket 이동 · Z6 고정 와이드 · 환경음 10초씩</div>
+      <div class="out">E01–E03 S01–S04 L03</div>
+    </div>
+    <div class="tl-row">
+      <div class="t mono">13:05–13:20</div><div class="m">15</div>
+      <div class="g">스틸 · 자격자료 · 백업 시작</div>
+      <div class="cam">Z6 사진 모드 · 체크리스트 대조</div>
+      <div class="out">P01 P02 P03 · 자격 이미지</div>
+    </div>
+  </div>
+</section>
+
+<!-- 04 샷리스트 -->
+<section>
+  <div class="sh">
+    <div class="no">04</div><h2>필수 샷리스트</h2>
+    <p>각 샷 = 고정 테이크 1 + 움직임 테이크 1 · 세로 우선 · A등급 확보율 90% 이상이 촬영 성공 기준</p>
+  </div>
+
+  <div class="filters" id="filters">
+    <button class="fbtn on" data-f="all">전체 36</button>
+    <button class="fbtn" data-f="A">A등급 26</button>
+    <button class="fbtn" data-f="B">B등급 10</button>
+    <button class="fbtn" data-f="외부">외부</button>
+    <button class="fbtn" data-f="호수">호수</button>
+    <button class="fbtn" data-f="공간">공간</button>
+    <button class="fbtn" data-f="원장">원장</button>
+    <button class="fbtn" data-f="상담">상담</button>
+    <button class="fbtn" data-f="유메">유메</button>
+    <button class="fbtn" data-f="헤드스파">헤드스파</button>
+    <button class="fbtn" data-f="마무리">마무리</button>
+    <button class="fbtn" data-f="SMP">SMP</button>
+    <button class="fbtn" data-f="사진">사진</button>
+  </div>
+
+  <div class="counter" id="counter">확보 <b>0</b> / 표시 36</div>
+  <div class="shots" id="shots"></div>
+</section>
+
+<!-- 05 매핑 -->
+<section>
+  <div class="sh">
+    <div class="no">05</div><h2>촬영본 → 1회차 콘텐츠 매핑</h2>
+    <p>08-19 촬영 당일 첫 게시 · 09-03까지 9건 · 같은 컷 연속 반복 금지 · 인터뷰 사운드바이트별 B-roll 세트 분리</p>
+  </div>
+  <div class="tbl-scroll">
+  <table>
+    <thead><tr><th>발행일</th><th>포맷</th><th>콘텐츠</th><th>인터뷰</th><th>필수 샷</th><th>편집 구조</th><th>실패 시</th><th>상태</th></tr></thead>
+    <tbody>
+      <tr><td class="mono">08-19 수</td><td>카드뉴스</td><td><strong>오픈 · 찾아오는 길</strong></td><td>Q1 한 문장</td><td class="mono">기존 사진 → E01–E03 교체</td><td>위치 → 동선 → 주차 → 예약</td><td>기존 인테리어 5장 사용</td><td><span class="chip ok">촬영 불요</span></td></tr>
+      <tr><td class="mono">08-21 금</td><td>카드뉴스</td><td><strong>첫 방문 헤드스파 혜택</strong></td><td>Q10</td><td class="mono">가격표 그래픽 · P02</td><td>조건 → 가격 → 예약</td><td>디자인만으로 제작</td><td><span class="chip ok">촬영 불요</span></td></tr>
+      <tr><td class="mono">08-23 일</td><td>무드컷</td><td><strong>호수 전경과 프라이빗 공간</strong></td><td>없음</td><td class="mono">L01 L02 L03 S01 S02 S04</td><td>음악 + 환경음 + 짧은 타이포</td><td>우천 시 창 반사 · 빗방울</td><td><span class="chip wait">촬영 대기</span></td></tr>
+      <tr><td class="mono">08-25 화</td><td>릴스</td><td><strong>원장 인터뷰 · 루아스칼프는 어떤 곳?</strong></td><td>Q1 + Q2</td><td class="mono">O01 O02 S01 L02 C01</td><td>인터뷰 5초 → 공간 → 상담 → 클로징</td><td>VO + 기존 인테리어 사진</td><td><span class="chip wait">촬영 대기</span></td></tr>
+      <tr><td class="mono">08-27 목</td><td>릴스</td><td><strong>시그니처 70분 경험</strong></td><td>Q5 + Q6</td><td class="mono">C02 Y01 Y03 H02 H03 H04 H06</td><td>후킹 → 3단계 → 휴식 → 예약</td><td>30분 B-roll로 구조 축소</td><td><span class="chip wait">촬영 대기</span></td></tr>
+      <tr><td class="mono">08-29 토</td><td>카드뉴스</td><td><strong>30 · 70분 선택법</strong></td><td>Q3 + Q4</td><td class="mono">가격표 Y01 H01</td><td>비교 → 추천 기준 → 상담</td><td>90분은 서비스 확인 전 숨김</td><td><span class="chip ok">촬영 불요</span></td></tr>
+      <tr><td class="mono">08-31 월</td><td>릴스</td><td><strong>30분 두피 리셋</strong></td><td>Q4</td><td class="mono">C03 H01 H02 H03 H06</td><td>상담 → 스케일링 → 세정 → 마무리</td><td>가격 카드 + 원장 설명</td><td><span class="chip wait">촬영 대기</span></td></tr>
+      <tr><td class="mono">09-01 화</td><td>무드컷</td><td><strong>유메 샴푸대 디테일</strong></td><td>Q6 짧은 자막</td><td class="mono">Y01 Y02 Y03 H03</td><td>장비 → 눕기 → 물 → 타월</td><td>사진 슬라이드</td><td><span class="chip wait">촬영 대기</span></td></tr>
+      <tr class="smp"><td class="mono">09-03 목</td><td>릴스</td><td><strong>SMP 상담은 이렇게 진행됩니다</strong></td><td>Q11 + Q12</td><td class="mono">M01 M02 M03 · O03 C02</td><td>질문 → 부위 확인 → 범위 상담 → 문의</td><td>대체: 상담부터 시작하는 이유 (Q3 · C01–C04)</td><td><span class="chip gate">09-01 원장 확인</span></td></tr>
+    </tbody>
+  </table>
+  </div>
+</section>
+
+<!-- 06 잠금표 -->
+<section>
+  <div class="sh">
+    <div class="no">06</div><h2>확정 · 미확정 잠금표</h2>
+    <p>미확정값은 최종 출력 · 게시 · 예약상품에 강제 삽입하지 않는다</p>
+  </div>
+  <div class="tbl-scroll">
+  <table>
+    <thead><tr><th>영역</th><th>항목</th><th>현재 값</th><th>상태</th><th>결정 기한</th><th>임시 처리</th></tr></thead>
+    <tbody>
+      <tr><td>촬영</td><td>일자 · 시간</td><td>2026-08-19 09:30 도착 / 10:00–12:00 모델 / 13:20 종료</td><td><span class="chip ok">확정</span></td><td class="mono">—</td><td>08-16 실행안 시간표 폐기</td></tr>
+      <tr><td>촬영</td><td>모델 동의서</td><td>ARTren 지참 · 현장 서명</td><td><span class="chip ok">확정</span></td><td class="mono">—</td><td>얼굴 사용 범위 항목 포함 인쇄</td></tr>
+      <tr class="smp"><td>SMP</td><td>촬영 · 발행</td><td>진행 · 비중 최소 · 발행 전 원장 확인</td><td><span class="chip gate">조건부 확정</span></td><td class="mono">09-01</td><td>시술 · 전후 비교 · 온라인 가격 제외</td></tr>
+      <tr><td>발행</td><td>1회차 캘린더</td><td>08-19 시작 · 9건 · 09-03 종료</td><td><span class="chip ok">확정</span></td><td class="mono">—</td><td>2일 등간격</td></tr>
+      <tr><td>플레이스</td><td>등록 상태</td><td>등록 완료 · 심사 중</td><td><span class="chip ok">확정</span></td><td class="mono">—</td><td>승인 전 제작 병렬 진행</td></tr>
+      <tr><td>프로모션</td><td>첫 방문 50%</td><td>상시 · 1인 1회 · 중복 불가</td><td><span class="chip ok">확정</span></td><td class="mono">—</td><td>헤드스파 한정 표기 필수</td></tr>
+      <tr><td>예약</td><td>예약금</td><td>30,000원</td><td><span class="chip ok">확정</span></td><td class="mono">승인 후</td><td>결제 연결 후 테스트</td></tr>
+      <tr><td>촬영</td><td>2회차</td><td>9/4 ~ 9/7 후보</td><td><span class="chip wait">미확정</span></td><td class="mono">8/25</td><td>1회차 누락 픽업 + 다른 고민</td></tr>
+      <tr><td>촬영</td><td>3회차</td><td>9/24 ~ 9/30 후보</td><td><span class="chip wait">미확정</span></td><td class="mono">9/10</td><td>1·2회차 공용 B-roll 재사용</td></tr>
+      <tr><td>브랜드</td><td>로고 원본</td><td>미수령</td><td><span class="chip hold">미확정</span></td><td class="mono">인쇄 전</td><td>로고 재생성 · 재타이핑 금지</td></tr>
+      <tr><td>프로그램</td><td>올인원 제공 가능</td><td>장비 · 서비스 확인 필요</td><td><span class="chip hold">미확정</span></td><td class="mono">공개 전</td><td>가격표 숨김 버전 유지</td></tr>
+      <tr><td>프로그램</td><td>키즈 명칭 · 모델</td><td>미확정</td><td><span class="chip hold">미확정</span></td><td class="mono">공개 전</td><td>3회차 조건부 유지</td></tr>
+      <tr><td>인쇄</td><td>배너 위치 · 수량 · 방향</td><td>미확정</td><td><span class="chip hold">미확정</span></td><td class="mono">발주 전</td><td>디자인만 진행 · 출력 보류</td></tr>
+      <tr><td>인쇄</td><td>예약 QR</td><td>예약 · 페이 미연결</td><td><span class="chip hold">미확정</span></td><td class="mono">승인 후</td><td>QR 공간 비움 · 가짜 QR 금지</td></tr>
+    </tbody>
+  </table>
+  </div>
+</section>
+
+<!-- 07 리스크 -->
+<section>
+  <div class="sh">
+    <div class="no">07</div><h2>리스크와 현장 대안</h2>
+    <p>촬영 성패를 가르는 순서대로 정렬</p>
+  </div>
+  <div class="risks">
+
+    <div class="risk hi">
+      <div class="lv">HIGH · 발행 차단</div>
+      <h4>SMP 게시물 원장 확인 미회신</h4>
+      <p>09-03 릴스가 게이트에 걸려 발행되지 않으면 1회차 9건 중 1건이 비고, 촬영한 M01–M03이 사장된다. 09-01 마감 기준으로 하루 여유만 있다.</p>
+      <div class="fix"><b>대안</b> 08-30까지 완성본을 먼저 보내 확인 기간을 3일로 늘린다. 미회신 시 '상담부터 시작하는 이유'로 즉시 교체, SMP는 2회차로 이월.</div>
+    </div>
+
+    <div class="risk hi">
+      <div class="lv">HIGH · 당일 발행</div>
+      <h4>08-19 첫 게시물이 촬영 당일</h4>
+      <p>촬영일과 첫 발행일이 겹친다. 오픈·찾아오는 길 카드뉴스는 촬영본 없이 제작 가능하지만, 08-18까지 디자인이 끝나 있어야 한다.</p>
+      <div class="fix"><b>대안</b> 08-18 마감으로 기존 인테리어 5장 + 로고 슬롯 버전 선완성. 촬영 후 E01–E03으로 이미지만 교체 발행하는 v2 별도 운영.</div>
+    </div>
+
+    <div class="risk mid">
+      <div class="lv">MID · 색·노출</div>
+      <h4>창 과노출과 혼합광</h4>
+      <p>호수 하이라이트와 피부톤을 동시에 살려야 한다. 천장등을 켠 채 진행하면 색온도가 섞여 후반 그레이딩에서 피부가 무너진다.</p>
+      <div class="fix"><b>대안</b> 09:45 구간에서 천장등 OFF 기준 확정. 창 과노출 시 인물 각도 변경 또는 블라인드 반개방. 호수는 노출 브라케팅 별도 확보.</div>
+    </div>
+
+    <div class="risk mid">
+      <div class="lv">MID · 시간 압박</div>
+      <h4>13:20 종료가 오후 예약과 충돌</h4>
+      <p>기존 안은 12시 종료였으나 3시간 50분으로 늘었다. 원장 오후 예약이 있으면 12:00–13:20 구간이 통째로 날아간다.</p>
+      <div class="fix"><b>대안</b> 08-18까지 원장 오후 일정 확인 필수. 축소 시 12:00–12:30 인터뷰를 절대 사수하고 매장·호수는 별도 30분 방문으로 분리.</div>
+    </div>
+
+    <div class="risk mid">
+      <div class="lv">MID · 오디오</div>
+      <h4>에어컨 · 펌프 · 옷 마찰음</h4>
+      <p>인터뷰 30분 전량이 못 쓰게 될 수 있는 유일한 항목. 32-bit float 내부녹음이라 클리핑은 없지만 배경 소음은 복구 불가.</p>
+      <div class="fix"><b>대안</b> 인터뷰 직전 룸톤 30초 별도 녹음. 에어컨은 인터뷰 중 정지. 라발리에 옷 마찰 확인 후 첫 답변 테스트 재생.</div>
+    </div>
+
+    <div class="risk lo">
+      <div class="lv">LOW · SMP 프레이밍</div>
+      <h4>바늘 · 기기가 프레임에 들어옴</h4>
+      <p>11:30 구간에서 도구 트레이를 잡을 때 바늘이나 카트리지가 노출되면 해당 컷 전량 폐기.</p>
+      <div class="fix"><b>대안</b> 촬영 전 트레이에서 바늘·카트리지 제거. 도면, 거울, 마킹펜만 남긴다. 촬영 중 M03만 별도 재확인.</div>
+    </div>
+
+    <div class="risk lo">
+      <div class="lv">LOW · 날씨</div>
+      <h4>08-19 오전 강수 · 흐림</h4>
+      <p>08-23 발행 무드컷이 호수 전경 기반이다. 흐리면 LAKE CALM 톤 자체가 흔들린다.</p>
+      <div class="fix"><b>대안</b> 창가 인물 우선, 호수는 창 반사와 빗방울 디테일로 전환. 무드컷 콘셉트를 '고요' 방향으로 재해석.</div>
+    </div>
+
+    <div class="risk lo">
+      <div class="lv">LOW · 후반</div>
+      <h4>백업 누락</h4>
+      <p>원본 단일 저장 상태에서 카드 포맷 시 복구 불가.</p>
+      <div class="fix"><b>대안</b> 서로 다른 저장장치 2곳에 복사 완료 전까지 카드 포맷 금지. 폴더명 <span class="mono">260819_LUA_카메라명</span>.</div>
+    </div>
+
+  </div>
+</section>
+
+<!-- 08 후반 -->
+<section>
+  <div class="sh">
+    <div class="no">08</div><h2>촬영 후 워크플로우</h2>
+  </div>
+  <div class="tbl-scroll">
+  <table>
+    <thead><tr><th>일자</th><th>작업</th><th>산출물</th><th>검증 기준</th><th>실패 시</th></tr></thead>
+    <tbody>
+      <tr><td class="mono">08-18</td><td>첫 게시물 선완성</td><td>08-19 카드뉴스</td><td>기존 사진 + 로고 슬롯 버전</td><td>발행 하루 순연</td></tr>
+      <tr><td class="mono">08-19 종료 직후</td><td>2중 백업</td><td>원본 아카이브</td><td>서로 다른 저장장치 2개</td><td>카드 포맷 금지 · 보존</td></tr>
+      <tr><td class="mono">08-20</td><td>1차 셀렉</td><td>리젝트 · 픽업 목록</td><td>오디오 → 초점 → 노출 순 검수</td><td>보충촬영 리스트 작성</td></tr>
+      <tr><td class="mono">08-20 ~ 22</td><td>1차 편집</td><td>대표사진 · 무드컷 · 릴스1</td><td>A등급 확보율 90% 대조</td><td>2회차 픽업 이월</td></tr>
+      <tr><td class="mono">08-22 ~</td><td>플레이스 사진 교체</td><td>P01 P02 셀렉본</td><td>심사 승인 · 과도한 텍스트 없음</td><td>기존 5장 유지</td></tr>
+      <tr class="smp"><td class="mono">08-30</td><td>SMP 완성본 송부</td><td>09-03 릴스</td><td>금지 표현 · 화면 검수 통과</td><td>대체 주제로 교체</td></tr>
+      <tr class="smp"><td class="mono">09-01</td><td>원장 확인 마감</td><td>회신</td><td>서면 또는 메신저 회신 확보</td><td>발행 보류 · 2회차 이월</td></tr>
+      <tr><td class="mono">심사 승인 후</td><td>예약 · 페이 연결</td><td>상품 4~6종 · 결제 동선</td><td>테스트 예약 · 결제 성공</td><td>톡톡 · 전화 임시 CTA 유지</td></tr>
+      <tr><td class="mono">승인 후</td><td>인쇄 QR 잠금</td><td>배너04 · A4 뒷면 · 책자 P7</td><td>실제 링크 검증</td><td>QR 공간 비운 채 출력</td></tr>
+    </tbody>
+  </table>
+  </div>
+</section>
+
+<footer>ARTren 내부 실행 문서 · 개정 2026-08-17 · 최신 지시가 08-16 실행안 및 PHASE5 값을 대체함</footer>
+
+</div>
+
+<script>
+const SHOTS=[
+ {id:"E01",c:"외부",n:"라크몽 A동 외관과 스타벅스 기준점",f:"와이드 · 고정+슬로우 푸시",d:"8초 · 세로/가로",u:"플레이스 · 08-19 카드뉴스",p:"A"},
+ {id:"E02",c:"외부",n:"A동 3층으로 이동하는 동선",f:"미디엄 · 짐벌 워크",d:"10초 · 세로",u:"예약 · 위치 카드",p:"A"},
+ {id:"E03",c:"외부",n:"E303호 간판 · 문 열림",f:"클로즈→미디엄 · 푸시인",d:"8초 · 세로/가로",u:"릴스 오프닝 · 플레이스",p:"A"},
+ {id:"L01",c:"호수",n:"호수 수평선과 하늘",f:"와이드 · 고정",d:"10초 · 가로/세로",u:"08-23 무드컷 · 배너",p:"A"},
+ {id:"L02",c:"호수",n:"창가에서 보이는 호수뷰",f:"와이드 · 슬로우 패닝",d:"10초 · 세로",u:"08-25 릴스 · 책자",p:"A"},
+ {id:"L03",c:"호수",n:"창 반사와 원장 실루엣",f:"미디엄 · 고정",d:"8초 · 세로",u:"브랜드 무드",p:"B"},
+ {id:"S01",c:"공간",n:"입구에서 전체 공간",f:"와이드 · 고정",d:"10초 · 가로/세로",u:"플레이스 대표사진 · 책자",p:"A"},
+ {id:"S02",c:"공간",n:"프라이빗룸과 베드",f:"와이드 · 슬로우 푸시",d:"10초 · 세로",u:"예약제 콘텐츠",p:"A"},
+ {id:"S03",c:"공간",n:"타월 · 제품 · 도구 정돈",f:"디테일 · 슬라이드",d:"8초 · 세로",u:"자료화면 공용",p:"A"},
+ {id:"S04",c:"공간",n:"조명 · 물 · 세이지/아이보리 디테일",f:"디테일 · 고정",d:"8초 · 세로",u:"08-23 무드컷",p:"B"},
+ {id:"O01",c:"원장",n:"카메라 정면 포트레이트",f:"미디엄 · 고정",d:"10초 · 세로 안전",u:"인터뷰 · 썸네일",p:"A"},
+ {id:"O02",c:"원장",n:"공간을 걸으며 준비하는 원장",f:"미디엄 · 팔로우",d:"10초 · 세로",u:"08-25 릴스 B-roll",p:"A"},
+ {id:"O03",c:"원장",n:"상담지를 확인하는 손",f:"클로즈 · 고정",d:"8초 · 세로",u:"전문성 자료화면",p:"A"},
+ {id:"O04",c:"원장",n:"제품을 선택 · 정리하는 손",f:"클로즈 · 슬로우 푸시",d:"8초 · 세로",u:"전문성 자료화면",p:"B"},
+ {id:"C01",c:"상담",n:"고객 맞이와 착석",f:"와이드 · 고정",d:"8초 · 세로",u:"08-25 · 08-27 릴스",p:"A"},
+ {id:"C02",c:"상담",n:"원장-고객 오버숄더 대화",f:"미디엄 · 고정",d:"10초 · 세로",u:"인터뷰 덮개",p:"A"},
+ {id:"C03",c:"상담",n:"두피 상태 확인 장면",f:"클로즈 · 고정",d:"8초 · 세로",u:"08-31 릴스 · 교육형",p:"A"},
+ {id:"C04",c:"상담",n:"고객 고개 끄덕임 · 메모",f:"디테일 · 컷어웨이",d:"8초 · 세로",u:"자료화면 공용",p:"B"},
+ {id:"Y01",c:"유메",n:"샴푸대 전체",f:"와이드 · 고정",d:"10초 · 가로/세로",u:"09-01 무드컷 · 책자",p:"A"},
+ {id:"Y02",c:"유메",n:"헤드레스트와 목 지지 디테일",f:"클로즈 · 푸시인",d:"8초 · 세로",u:"장비 설명",p:"A"},
+ {id:"Y03",c:"유메",n:"모델 눕기와 타월 세팅",f:"미디엄 · 고정",d:"10초 · 세로",u:"과정 릴스",p:"A"},
+ {id:"H01",c:"헤드스파",n:"스케일링 도포",f:"클로즈 · 고정",d:"8초 · 세로",u:"08-31 30분 과정",p:"A"},
+ {id:"H02",c:"헤드스파",n:"샴푸 거품과 손의 리듬",f:"클로즈 · 고정+슬로모션",d:"10초 · 세로",u:"08-27 시그니처",p:"A"},
+ {id:"H03",c:"헤드스파",n:"물줄기와 린스",f:"클로즈 · 고정",d:"10초 · 세로",u:"공용 B-roll",p:"A"},
+ {id:"H04",c:"헤드스파",n:"두피 · 목 주변 손동작",f:"클로즈 · 고정",d:"10초 · 세로",u:"08-27 시그니처",p:"A"},
+ {id:"H05",c:"헤드스파",n:"스팀 또는 온습도 장면",f:"미디엄 · 슬로우 푸시",d:"8초 · 세로",u:"프리미엄 인식",p:"B"},
+ {id:"H06",c:"헤드스파",n:"따뜻한 타월 마무리",f:"클로즈 · 고정",d:"8초 · 세로",u:"릴스 엔딩",p:"A"},
+ {id:"F01",c:"마무리",n:"거울 확인 · 모발 정돈",f:"미디엄 · 고정",d:"8초 · 세로",u:"고객 경험",p:"B"},
+ {id:"F02",c:"마무리",n:"차 또는 물 제공",f:"디테일 · 슬라이드",d:"8초 · 세로",u:"브랜드 무드",p:"B"},
+ {id:"F03",c:"마무리",n:"문 앞 배웅과 인사",f:"와이드 · 고정",d:"8초 · 세로",u:"CTA 엔딩",p:"A"},
+ {id:"M01",c:"SMP",n:"희망 부위 확인과 거울 상담",f:"미디엄 · 고정",d:"10초 · 세로",u:"09-03 릴스 메인",p:"A",smp:1},
+ {id:"M02",c:"SMP",n:"범위 · 밀도 설명과 스케치",f:"클로즈 · 슬로우 푸시",d:"8초 · 세로",u:"09-03 릴스 · 내부 자료",p:"B",smp:1},
+ {id:"M03",c:"SMP",n:"도구 · 위생 준비 디테일 (바늘 제외)",f:"디테일 · 고정",d:"8초 · 세로",u:"09-03 릴스 보조",p:"B",smp:1},
+ {id:"P01",c:"사진",n:"원장 공식 포트레이트",f:"미디엄 · 사진",d:"5종 · 가로/세로",u:"플레이스 · 책자 · 썸네일",p:"A"},
+ {id:"P02",c:"사진",n:"인테리어 대표사진",f:"와이드 · 사진",d:"5장 · 가로",u:"네이버 대표사진",p:"A"},
+ {id:"P03",c:"사진",n:"가격표 · 브로슈어 배치 가능 공간",f:"미디엄 · 사진",d:"3장 · 가로/세로",u:"제작물 목업",p:"B"}
+];
+
+const grid=document.getElementById('shots');
+const counter=document.getElementById('counter');
+const done=new Set();
+let filter='all';
+
+function render(){
+  const list=SHOTS.filter(s=>filter==='all'||s.p===filter||s.c===filter);
+  grid.innerHTML=list.map(s=>`
+    <div class="shot${done.has(s.id)?' done':''}${s.smp?' isSmp':''}" data-id="${s.id}">
+      <input type="checkbox" class="cb" ${done.has(s.id)?'checked':''} aria-label="${s.id} 확보">
+      <div class="id mono">${s.id} <span class="chip ${s.p==='A'?'a':'b'}" style="margin-left:6px">${s.p}</span></div>
+      <div class="nm">${s.n}</div>
+      <div class="meta">${s.f}<br>${s.d}</div>
+      <div class="use">${s.u}</div>
+    </div>`).join('');
+  counter.innerHTML=`확보 <b>${done.size}</b> / 표시 ${list.length} · 전체 36`;
+}
+
+grid.addEventListener('change',e=>{
+  if(!e.target.classList.contains('cb'))return;
+  const id=e.target.closest('.shot').dataset.id;
+  e.target.checked?done.add(id):done.delete(id);
+  render();
+});
+
+document.getElementById('filters').addEventListener('click',e=>{
+  const b=e.target.closest('.fbtn'); if(!b)return;
+  filter=b.dataset.f;
+  document.querySelectorAll('.fbtn').forEach(x=>x.classList.toggle('on',x===b));
+  render();
+});
+
+render();
+</script>
+</body>
+</html>
