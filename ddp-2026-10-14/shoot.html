@@ -1,0 +1,271 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DDP 성수 팝업 현장 큐시트</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap">
+<style>
+  /* ===== 편집 가이드 =====
+     - 컷 행은 <tr> 단위로 추가·삭제하세요. 구분 태그: .req(필수) .opt(선택) .cond(조건부)
+     - 색상은 :root 변수만 바꾸면 전체에 적용됩니다.
+     - 인쇄/PDF: A4 2장 기준. .pb 클래스가 붙은 블록 앞에서 2쪽으로 넘어갑니다. */
+  :root{
+    --ink:#16181d; --sub:#4a4f5a; --mute:#7c8290; --line:#d9dce2; --soft:#f3f4f6;
+    --accent:#b8402a; --accent-soft:#fbeeea; --blue:#2c4a72; --blue-soft:#eaf0f7; --grey-soft:#eceef1;
+  }
+  @page{ size:A4; margin:11mm 12mm 11mm 12mm;
+    @bottom-right{ content:"ARTren 현장 큐시트 · " counter(page) " / " counter(pages); font-family:"Noto Sans CJK KR",sans-serif; font-size:6.8pt; color:#7c8290; } }
+  *{ box-sizing:border-box; }
+  html,body{ margin:0; padding:0; background:#fff; }
+  body{ font-family:"Noto Sans KR","Noto Sans CJK KR","Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+    color:var(--ink); font-size:8.5pt; line-height:1.45; word-break:keep-all; }
+  .page{ max-width:186mm; margin:0 auto; }
+  .pb{ break-before:page; }
+
+  .top{ display:flex; justify-content:space-between; align-items:flex-end; border-bottom:2px solid var(--ink); padding-bottom:5pt; }
+  .wordmark{ font-weight:900; font-size:14pt; letter-spacing:.06em; line-height:1; }
+  .meta{ text-align:right; font-size:7.4pt; color:var(--sub); }
+  .titlebar{ display:flex; justify-content:space-between; align-items:flex-start; margin:7pt 0 5pt; gap:10pt; }
+  h1{ font-size:14.5pt; font-weight:900; margin:0; line-height:1.25; white-space:nowrap; }
+  h1 small{ display:block; font-size:8.4pt; font-weight:500; color:var(--sub); margin-top:2pt; }
+  .badge{ flex:none; border:1.5px solid var(--accent); color:var(--accent); background:var(--accent-soft);
+    font-weight:700; font-size:7.8pt; padding:3.5pt 7pt; border-radius:3pt; text-align:center; line-height:1.35; }
+
+  .info{ display:grid; grid-template-columns:1.05fr 1.15fr 1.5fr; border:1px solid var(--line); border-radius:3pt; }
+  .info div{ padding:4pt 7pt; border-left:1px solid var(--line); }
+  .info div:first-child{ border-left:0; }
+  .info b{ display:block; font-size:6.9pt; color:var(--mute); font-weight:500; }
+  .info div > span{ font-weight:700; }
+  .info div > span.memo{ font-weight:400; }
+
+  h2{ font-size:9.6pt; font-weight:900; margin:8pt 0 3.5pt; }
+  h2 i{ font-style:normal; display:inline-block; min-width:14pt; height:14pt; line-height:14pt; padding:0 3pt; text-align:center;
+    background:var(--ink); color:#fff; border-radius:2pt; font-size:7.4pt; margin-right:5pt; vertical-align:1pt; }
+  h2 em{ font-style:normal; font-weight:500; font-size:7.6pt; color:var(--sub); margin-left:4pt; }
+
+  .rules{ display:grid; grid-template-columns:repeat(4,1fr); gap:4pt; margin-top:5pt; }
+  .rules div{ border-left:3px solid var(--accent); background:var(--accent-soft); padding:3pt 5pt; font-size:7.6pt; line-height:1.38; }
+  .rules b{ display:block; color:var(--accent); font-size:7.2pt; }
+
+  table{ width:100%; border-collapse:collapse; font-size:8pt; }
+  th{ text-align:left; font-weight:700; font-size:7.2pt; color:var(--sub); background:var(--soft);
+    padding:3pt 4pt; border-top:1px solid var(--ink); border-bottom:1px solid var(--line); }
+  td{ padding:3.2pt 4pt; border-bottom:1px solid var(--line); vertical-align:top; }
+  .box{ display:inline-block; width:8pt; height:8pt; border:1px solid var(--ink); border-radius:1pt; vertical-align:-1pt; }
+  td.c{ width:12pt; text-align:center; }
+  .no{ font-weight:700; white-space:nowrap; width:38pt; }
+  .t{ font-size:6.8pt; font-weight:700; padding:.5pt 3.5pt; border-radius:2pt; white-space:nowrap; display:inline-block; }
+  .req{ background:var(--ink); color:#fff; }
+  .opt{ background:var(--grey-soft); color:var(--sub); }
+  .cond{ background:var(--blue-soft); color:var(--blue); border:1px solid #c5d3e6; }
+  .memo{ color:var(--sub); font-size:7.5pt; }
+  .warn{ color:var(--accent); font-weight:700; }
+
+  .two{ display:grid; grid-template-columns:1fr 1fr; gap:9pt; }
+  .tl td:first-child{ font-weight:700; white-space:nowrap; width:62pt; }
+  .tl .cuts{ color:var(--sub); font-size:7.4pt; }
+
+  .ep{ border:1px solid var(--line); border-radius:3pt; padding:5pt 7pt 3pt; margin-top:7pt; break-inside:avoid; }
+  .ep-h{ display:flex; justify-content:space-between; align-items:baseline; gap:6pt; border-bottom:1px solid var(--line); padding-bottom:3pt; margin-bottom:4pt; }
+  .ep-h b{ font-size:10pt; font-weight:900; }
+  .ep-h > span{ font-size:7.4pt; color:var(--sub); white-space:nowrap; }
+  .se{ display:grid; grid-template-columns:1fr 1fr; gap:6pt; margin-bottom:4pt; }
+  .se div{ background:var(--soft); border-radius:2pt; padding:3pt 6pt; font-size:7.8pt; line-height:1.4; }
+  .se b{ display:block; font-size:6.9pt; color:var(--mute); }
+  .ep-note{ font-size:7.3pt; color:var(--sub); padding:3pt 0 2pt; }
+
+  .fall{ display:grid; grid-template-columns:1fr 1fr; gap:8pt; margin-top:4pt; }
+  .fall div{ border:1px solid var(--line); border-radius:3pt; padding:5pt 7pt; }
+  .fall ol{ margin:2pt 0 0; padding-left:13pt; }
+  .fall li{ margin:1pt 0; }
+  .legend{ font-size:7.2pt; color:var(--sub); margin-top:3pt; }
+
+@media screen{
+ body{background:#f3f4f6;font-size:16px;line-height:1.65;padding:24px 16px;color:#16181d}
+ .page{max-width:1060px;padding:32px;background:#fff;border-radius:12px;box-shadow:0 6px 25px #16181d0a}
+ .download-bar{max-width:1060px;margin:0 auto 16px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+ .download-bar a{display:inline-flex;min-height:44px;align-items:center;justify-content:center;padding:10px 18px;border-radius:8px;background:#16181d;color:#fff;text-decoration:none;font-size:15px;font-weight:700}
+ .download-bar a.secondary{background:#fff;color:#16181d;border:1px solid #d9dce2}
+ .download-bar span{color:#4a4f5a;font-size:14px}
+ h1{font-size:26px;white-space:normal}h1 small{font-size:16px}.wordmark{font-size:26px}
+ h2{font-size:20px;margin-top:24px}.meta,.badge{font-size:13px}
+ table,td,th{font-size:15px}td,th{padding:10px 8px}
+ .facts div>span,.ttl{font-size:16px}.facts b,.info b,.se b,.rules b{font-size:13px}
+ .src,.note,.foot,.ep-note,.memo,.tl .cuts{font-size:13px}.ep-h b{font-size:20px}.ep-h>span{font-size:14px}
+ .ep{margin-top:24px;padding:16px}.se div,.rules div{font-size:15px;padding:12px}.t{font-size:13px}
+ .pb{break-before:auto}.chk li{padding-top:8px;padding-bottom:8px}.chk li:before{top:14px}
+}
+@media screen and (max-width:700px){
+ body{padding:12px 8px}.page{padding:20px 14px;border-radius:10px}
+ .top,.titlebar,.ep-h,.crew .row{display:block}.meta{text-align:left;margin-top:10px}.badge{display:inline-block;margin-top:12px}
+ .facts,.info,.two,.se,.fall,.deliv,.rules{grid-template-columns:1fr;gap:10px}
+ .facts div,.info div{border-left:0;border-top:1px solid #d9dce2;padding:12px}.facts div:first-child,.info div:first-child{border-top:0}
+ .crew .row>span:last-child{text-align:left;display:block}.ep-h>span{display:block;white-space:normal;margin-top:8px}
+ .mobile-cards,.mobile-cards tbody,.mobile-cards tr,.mobile-cards td{display:block;width:100%!important}
+ .mobile-cards thead{display:none}.mobile-cards tr{border:1px solid #d9dce2;border-radius:8px;margin:12px 0;padding:8px}
+ .mobile-cards td{border:0;padding:5px 8px;white-space:normal}.mobile-cards td[data-label]:before{content:attr(data-label) ' ';display:block;color:#7c8290;font-size:12px;font-weight:700}
+ .mobile-cards td.c{width:auto!important;text-align:left}.mobile-cards .no{font-size:17px}.foot{gap:8px}.ep{padding:12px}
+ .tl td:first-child{white-space:normal;width:auto}.tl td{font-size:14px;padding:8px 5px}
+ h2 em{display:block;margin-left:0;margin-top:4px;font-size:13px}
+}
+@media print{.download-bar{display:none!important}}
+
+</style>
+</head>
+<body>
+<nav class="download-bar" aria-label="PDF 문서"><a href="ddp-field-shoot-plan.pdf" target="_blank" rel="noopener">PDF 보기</a><a class="secondary" href="ddp-field-shoot-plan.pdf" download>PDF 다운로드</a><span>A4 2장 · 고객 승인 전 기획안</span></nav>
+<div class="page">
+
+  <div class="top">
+    <div class="wordmark">ARTren</div>
+    <div class="meta">감독 최지훈 현장용 · 작성 2026.10.14 · 촬영진행용</div>
+  </div>
+  <div class="titlebar">
+    <h1>성수 팝업 현장 큐시트
+      <small>DDP디자인스토어 「서울조각상점」 숏폼 DDP-01-01 ~ 03</small></h1>
+    <div class="badge">고객 승인 전<br>기획·협조 요청안 기준</div>
+  </div>
+
+  <div class="info">
+    <div><b>촬영</b><span>10.14(수) 14:00–16:00 KST</span><br><span class="memo">16:00 종료 · 백업은 종료 후</span></div>
+    <div><b>장소</b><span>서울 성동구 동일로 79<br>성수 ZZON 1층</span></div>
+    <div><b>인원 (조건부 3명 · 미확정)</b><span>운영 직원 1 · 성인 손모델 1 · 촬영 최지훈 1</span><br><span class="memo">직원이 두 공정·운영 겸임 불가 시 공정 담당 추가</span></div>
+  </div>
+
+  <div class="rules">
+    <div><b>방문객</b>무단 촬영 금지. 얼굴 들어오면 컷 폐기</div>
+    <div><b>프레스</b>운영 담당 직원만 조작. 촬영자는 안전거리</div>
+    <div><b>가격</b>화면·자막 가격 노출 금지. 무료/유료 구분만</div>
+    <div><b>표현</b>효능·혜택 암시 금지. 가짜 전후 연출 금지</div>
+  </div>
+
+  <h2><i>A</i>14:00 사전 조건 대조 <em>모두 미확정 — 현장에서 확인 후 체크. 하나라도 불가면 하단 대응 순서 적용</em></h2>
+  <div class="two">
+    <table>
+      <tbody>
+        <tr><td class="c"><span class="box"></span></td><td>운영 주체·현장 담당자 확인</td></tr>
+        <tr><td class="c"><span class="box"></span></td><td>촬영 허가와 촬영 가능 구역·시간</td></tr>
+        <tr><td class="c"><span class="box"></span></td><td>직원·손모델 출연 및 게시·광고 활용 동의</td></tr>
+        <tr><td class="c"><span class="box"></span></td><td>손모델 성인 확인, 얼굴·음성 미노출 합의</td></tr>
+      </tbody>
+    </table>
+    <table>
+      <tbody>
+        <tr><td class="c"><span class="box"></span></td><td>체험 재료·샘플 제공 여부, 구매비 부담 주체</td></tr>
+        <tr><td class="c"><span class="box"></span></td><td>체험 촬영 시간대 (방문객 이용과 분리)</td></tr>
+        <tr><td class="c"><span class="box"></span></td><td>판매 상품 3종 현물 명칭·재고 → A·B·C 배정</td></tr>
+        <tr><td class="c"><span class="box"></span></td><td>스탬프 용지·케이스 결합 순서, 프레스 위치·안전선</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="legend">상품 후보: 서울복태 · 서울채집가방 · 랜드마크 핀배지. 확인한 현물 명칭만 자막에 사용 (복태는 디자인 의미만, 효능 표현 금지). 티셔츠 그래픽은 공지 기준 13종.</p>
+
+  <h2><i>B</i>시간표와 컷 배정</h2>
+  <table class="tl">
+    <thead><tr><th>시간</th><th>작업</th><th>컷 번호</th></tr></thead>
+    <tbody>
+      <tr><td>14:00–14:10</td><td>사전 조건 대조 · 안전 세팅 · 화이트밸런스 · 룸톤</td><td class="cuts">A 체크</td></tr>
+      <tr><td>14:10–14:30</td><td><b>01편 필수</b> 허용 구역 공간 와이드 + 판매 상품 3종 기본 완결</td><td class="cuts">P1 필수 6컷 (01·02·03·05·06·07) + 허용 시 04</td></tr>
+      <tr><td>14:30–14:55</td><td><b>02편</b> 스탬프 키링</td><td class="cuts">P2-01 ~ P2-07 (+선택)</td></tr>
+      <tr><td>14:55–15:20</td><td><b>03편</b> 티셔츠 <span class="memo">— 직원 시간에 따라 02편과 순서 교체</span></td><td class="cuts">P3-01 ~ P3-07 (+조건부)</td></tr>
+      <tr><td>15:20–15:35</td><td>첫·끝 장면 매치컷 재확인 · 편별 썸네일</td><td class="cuts">P1-03/04 · P2-01/06 · P3-09 · 썸네일</td></tr>
+      <tr><td>15:35–15:50</td><td><b>01편 누락 컷 최우선 보완</b> → 선택 컷</td><td class="cuts">P1 필수 누락 → P1-08~10</td></tr>
+      <tr><td>15:50–16:00</td><td>전 컷 재생 확인 · 재료·샘플 반납 · 철수</td><td class="cuts">체크칸 대조</td></tr>
+    </tbody>
+  </table>
+
+  <div class="ep">
+    <div class="ep-h"><b>P1 · DDP-01-01 서울 한 조각 직접 골라봤습니다</b><span>35–40초 · <span class="warn">10/16 우선 납품</span> (시각 협의)</span></div>
+    <div class="se">
+      <div><b>첫 장면</b>진열 상품 A 접사 + 자막 훅 “구경만 하는 곳인 줄 알았는데?” (창작 훅 · 성과 검증 아님)</div>
+      <div><b>끝 장면</b>손이 고른 상품을 들고 정지 — 손바닥 또는 가방 엔딩. 상품 취급 허가가 없으면 선택한 진열 상품 정지 접사로 기본 완결</div>
+    </div>
+    <table class="mobile-cards">
+      <thead><tr><th></th><th>컷</th><th>내용</th><th>구분</th><th>메모</th></tr></thead>
+      <tbody>
+        <tr><td class="c" data-label=""><span class="box"></span></td><td class="no" data-label="컷">P1-01</td><td data-label="내용">허용 구역 공간 와이드 (고정)</td><td data-label="구분"><span class="t req">필수</span></td><td class="memo" data-label="메모">방문객 빠진 순간 · 10초 이상</td></tr>
+        <tr><td class="c" data-label=""><span class="box"></span></td><td class="no" data-label="컷">P1-02</td><td data-label="내용">간판·사인</td><td data-label="구분"><span class="t req">필수</span></td><td class="memo" data-label="메모">정면 + 사선 각 1</td></tr>
+        <tr><td class="c" data-label=""><span class="box"></span></td><td class="no" data-label="컷">P1-03</td><td data-label="내용">진열 상태 상품 A 접사 (첫 장면)</td><td data-label="구분"><span class="t req">필수</span></td><td class="memo" data-label="메모">삼각대 고정, 04와 같은 프레이밍</td></tr>
+        <tr><td class="c" data-label=""><span class="box"></span></td><td class="no" data-label="컷">P1-04</td><td data-label="내용">같은 상품 A를 손으로 드는 매치컷</td><td data-label="구분"><span class="t cond">허용 시</span></td><td class="memo" data-label="메모">불가 시 03만 쓰고 05로 연결</td></tr>
+        <tr><td class="c" data-label=""><span class="box"></span></td><td class="no" data-label="컷">P1-05</td><td data-label="내용">상품 B 전체</td><td data-label="구분"><span class="t req">필수</span></td><td class="memo" data-label="메모">실물 색 그대로</td></tr>
+        <tr><td class="c" data-label=""><span class="box"></span></td><td class="no" data-label="컷">P1-06</td><td data-label="내용">상품 C 디테일</td><td data-label="구분"><span class="t req">필수</span></td><td class="memo" data-label="메모">접사 2방향</td></tr>
+        <tr><td class="c" data-label=""><span class="box"></span></td><td class="no" data-label="컷">P1-07</td><td data-label="내용">고른 상품 엔딩 + 자막용 여백</td><td data-label="구분"><span class="t req">필수</span></td><td class="memo" data-label="메모">취급 불가 시 진열 상품 정지 접사 · “입장 무료 · 상품 구매·체험 유료” 자막 자리</td></tr>
+        <tr><td class="c" data-label=""><span class="box"></span></td><td class="no" data-label="컷">P1-08</td><td data-label="내용">키링 체험 결과 컷</td><td data-label="구분"><span class="t opt">선택</span></td><td class="memo" data-label="메모">체험 확보 시 · P2 촬영분 재사용 가능</td></tr>
+        <tr><td class="c" data-label=""><span class="box"></span></td><td class="no" data-label="컷">P1-09</td><td data-label="내용">티셔츠 제작 결과 컷</td><td data-label="구분"><span class="t opt">선택</span></td><td class="memo" data-label="메모">체험 확보 시 · P3 촬영분 재사용 가능</td></tr>
+        <tr><td class="c" data-label=""><span class="box"></span></td><td class="no" data-label="컷">P1-10</td><td data-label="내용">썸네일 스틸</td><td data-label="구분"><span class="t opt">선택</span></td><td class="memo" data-label="메모">상품 A 접사 기반</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="ep pb">
+    <div class="ep-h"><b>P2 · DDP-01-02 이 종이가 가방에 달리기까지</b><span>22–28초 · 납기 별도 협의</span></div>
+    <div class="se">
+      <div><b>첫 장면</b>손바닥 위 빈 종이 + 자막 훅 “이 종이가 가방에 달린다고?” (창작 훅)</div>
+      <div><b>끝 장면</b>완성 키링을 가방에 다는 손</div>
+    </div>
+    <table class="mobile-cards">
+      <thead><tr><th></th><th>컷</th><th>내용</th><th>구분</th><th>메모</th></tr></thead>
+      <tbody>
+        <tr><td class="c" data-label=""><span class="box"></span></td><td class="no" data-label="컷">P2-01</td><td data-label="내용">손바닥 위 빈 종이 (첫 장면)</td><td data-label="구분"><span class="t req">필수</span></td><td class="memo" data-label="메모">손 위치·앵글 표시 → 06과 매치컷</td></tr>
+        <tr><td class="c" data-label=""><span class="box"></span></td><td class="no" data-label="컷">P2-02</td><td data-label="내용">문양 선택하는 손</td><td data-label="구분"><span class="t req">필수</span></td><td class="memo" data-label="메모">탑샷</td></tr>
+        <tr><td class="c" data-label=""><span class="box"></span></td><td class="no" data-label="컷">P2-03</td><td data-label="내용">스탬프 누르기</td><td data-label="구분"><span class="t req">필수</span></td><td class="memo" data-label="메모">찍는 소리 함께 수음</td></tr>
+        <tr><td class="c" data-label=""><span class="box"></span></td><td class="no" data-label="컷">P2-04</td><td data-label="내용">찍힌 종이</td><td data-label="구분"><span class="t req">필수</span></td><td class="memo" data-label="메모">탑샷 고정</td></tr>
+        <tr><td class="c" data-label=""><span class="box"></span></td><td class="no" data-label="컷">P2-05</td><td data-label="내용">별도 구매 케이스에 결합</td><td data-label="구분"><span class="t req">필수</span></td><td class="memo" data-label="메모">실제 용지·결합 순서는 현장 확인대로</td></tr>
+        <tr><td class="c" data-label=""><span class="box"></span></td><td class="no" data-label="컷">P2-06</td><td data-label="내용">같은 손바닥 위치의 완성 키링</td><td data-label="구분"><span class="t req">필수</span></td><td class="memo" data-label="메모">01과 동일 위치·앵글</td></tr>
+        <tr><td class="c" data-label=""><span class="box"></span></td><td class="no" data-label="컷">P2-07</td><td data-label="내용">가방에 달기 (끝 장면)</td><td data-label="구분"><span class="t req">필수</span></td><td class="memo" data-label="메모">무지 가방</td></tr>
+        <tr><td class="c" data-label=""><span class="box"></span></td><td class="no" data-label="컷">P2-08</td><td data-label="내용">스탬프·케이스 결합 클로즈업 인서트</td><td data-label="구분"><span class="t opt">선택</span></td><td class="memo" data-label="메모">시간 남을 때</td></tr>
+      </tbody>
+    </table>
+    <p class="ep-note"><span class="warn">금지</span> 재료 무료 제공·반복 체험이 당연한 것처럼 보이는 연출, 케이스를 체험에 포함된 것처럼 표현.</p>
+  </div>
+
+  <div class="ep">
+    <div class="ep-h"><b>P3 · DDP-01-03 제가 한 건 고르기까지</b><span>25–30초 · 납기 별도 협의</span></div>
+    <div class="se">
+      <div><b>첫 장면</b>그래픽 선택지(13종) 또는 제작 전 실물 + 자막 훅 “제가 한 건 이거 고른 것뿐” (창작 훅)</div>
+      <div><b>끝 장면</b>식힌 뒤 허용 시 실물 펼침 · 불가 시 직원이 꺼낸 완성품</div>
+    </div>
+    <table class="mobile-cards">
+      <thead><tr><th></th><th>컷</th><th>내용</th><th>구분</th><th>메모</th></tr></thead>
+      <tbody>
+        <tr><td class="c" data-label=""><span class="box"></span></td><td class="no" data-label="컷">P3-01</td><td data-label="내용">그래픽 선택지 와이드 (첫 장면)</td><td data-label="구분"><span class="t req">필수</span></td><td class="memo" data-label="메모">가격 표기 프레임 밖</td></tr>
+        <tr><td class="c" data-label=""><span class="box"></span></td><td class="no" data-label="컷">P3-02</td><td data-label="내용">제작 전 실물</td><td data-label="구분"><span class="t cond">허용 시</span></td><td class="memo" data-label="메모">P3-09 전후 매치컷의 ‘전’</td></tr>
+        <tr><td class="c" data-label=""><span class="box"></span></td><td class="no" data-label="컷">P3-03</td><td data-label="내용">후보 비교 (손가락으로 2~3개 가리키기)</td><td data-label="구분"><span class="t req">필수</span></td><td class="memo" data-label="메모">손모델 손만</td></tr>
+        <tr><td class="c" data-label=""><span class="box"></span></td><td class="no" data-label="컷">P3-04</td><td data-label="내용">선택하는 순간</td><td data-label="구분"><span class="t req">필수</span></td><td class="memo" data-label="메모">정지 0.5초 여유</td></tr>
+        <tr><td class="c" data-label=""><span class="box"></span></td><td class="no" data-label="컷">P3-05</td><td data-label="내용">구매·주문 안내 동선</td><td data-label="구분"><span class="t req">필수</span></td><td class="memo" data-label="메모">손·동선만, 가격·결제 화면 노출 금지</td></tr>
+        <tr><td class="c" data-label=""><span class="box"></span></td><td class="no" data-label="컷">P3-06</td><td data-label="내용">담당 직원의 프레스 조작</td><td data-label="구분"><span class="t req">필수</span></td><td class="memo" data-label="메모"><span class="warn">직원만 조작</span> · 손·기계만 · 안전거리</td></tr>
+        <tr><td class="c" data-label=""><span class="box"></span></td><td class="no" data-label="컷">P3-07</td><td data-label="내용">직원이 꺼낸 완성품</td><td data-label="구분"><span class="t req">필수</span></td><td class="memo" data-label="메모">얼굴 제외</td></tr>
+        <tr><td class="c" data-label=""><span class="box"></span></td><td class="no" data-label="컷">P3-08</td><td data-label="내용">식힌 뒤 실물 펼침 (끝 장면)</td><td data-label="구분"><span class="t cond">허용 시</span></td><td class="memo" data-label="메모">뜨거운 상태에서 만지지 않음</td></tr>
+        <tr><td class="c" data-label=""><span class="box"></span></td><td class="no" data-label="컷">P3-09</td><td data-label="내용">같은 옷 전후 매치컷</td><td data-label="구분"><span class="t cond">허용 시</span></td><td class="memo" data-label="메모">02·08이 같은 옷일 때만. 없으면 그래픽 → 실제 결과로 편집</td></tr>
+      </tbody>
+    </table>
+    <p class="ep-note"><span class="warn">금지</span> 다른 옷이나 합성으로 만든 가짜 전후, 촬영자의 프레스 조작.</p>
+  </div>
+
+  <h2><i>C</i>시간·조건 부족 시 대응</h2>
+  <div class="fall">
+    <div>
+      <b>포기 순서 (아래 순서대로)</b>
+      <ol>
+        <li>선택 컷 전체 (P1-08~10, P2-08)</li>
+        <li>조건부 컷 (P3-02·08·09, P1-04)</li>
+        <li>P3 편 전체 → P2 편 전체</li>
+        <li><b>P1 필수 6컷 (01·02·03·05·06·07)은 끝까지 유지</b> · 허용 시 04는 별도</li>
+      </ol>
+    </div>
+    <div>
+      <b>조건별 판단</b>
+      <ol>
+        <li>체험 촬영 불가 → P1 완결 우선, P2·P3 제작 여부 고객 협의</li>
+        <li>손모델 미확보 → 진행 방식 현장 담당자와 협의 후 결정</li>
+        <li>직원이 두 공정 겸임 불가 → 공정 담당 추가 요청, 안 되면 직원 시간에 맞춰 02·03 순서 교체</li>
+        <li>16:00 정시 종료 · 백업과 가편은 종료 후 (P1 10/16 납품 시각 협의)</li>
+      </ol>
+    </div>
+  </div>
+  <p class="legend">구분: <span class="t req">필수</span> 반드시 확보 · <span class="t cond">허용 시</span> 현장 허가가 있을 때만 · <span class="t opt">선택</span> 시간 남을 때</p>
+
+</div>
+</body>
+</html>

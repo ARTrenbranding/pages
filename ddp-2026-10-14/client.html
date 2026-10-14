@@ -1,0 +1,216 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DDP 성수 팝업 숏폼 기획·협조 요청안</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap">
+<style>
+  /* ===== 편집 가이드 =====
+     - 문구는 본문 HTML에서 바로 수정하세요.
+     - 색상은 :root 변수만 바꾸면 전체에 적용됩니다.
+     - 인쇄/PDF: A4 1장 기준으로 여백·글자 크기를 맞춰 두었습니다. 내용을 늘리면 2장으로 넘어갈 수 있습니다. */
+  :root{
+    --ink:#16181d; --sub:#4a4f5a; --mute:#7c8290; --line:#d9dce2; --soft:#f3f4f6;
+    --accent:#b8402a; --accent-soft:#fbeeea; --ok:#2f5d50; --ok-soft:#e9f2ef;
+  }
+  @page{ size:A4; margin:12mm 13mm 11mm 13mm; }
+  *{ box-sizing:border-box; }
+  html,body{ margin:0; padding:0; background:#fff; }
+  body{
+    font-family:"Noto Sans KR","Noto Sans CJK KR","Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+    color:var(--ink); font-size:8.6pt; line-height:1.48; word-break:keep-all;
+  }
+  .page{ max-width:184mm; margin:0 auto; }
+
+  /* Header */
+  .top{ display:flex; justify-content:space-between; align-items:flex-end; border-bottom:2px solid var(--ink); padding-bottom:5pt; }
+  .wordmark{ font-weight:900; font-size:15pt; letter-spacing:.06em; line-height:1; }
+  .meta{ text-align:right; font-size:7.6pt; color:var(--sub); line-height:1.5; }
+  .titlebar{ display:flex; justify-content:space-between; align-items:flex-start; gap:10pt; margin:7pt 0 4pt; }
+  h1{ white-space:nowrap; font-size:15pt; font-weight:900; margin:0; letter-spacing:-.01em; line-height:1.25; }
+  h1 small{ display:block; font-size:8.6pt; font-weight:500; color:var(--sub); margin-top:3pt; letter-spacing:0; }
+  .badge{ flex:none; border:1.5px solid var(--accent); color:var(--accent); background:var(--accent-soft);
+    font-weight:700; font-size:8pt; padding:4pt 8pt; border-radius:3pt; text-align:center; line-height:1.35; }
+
+  .facts{ display:grid; grid-template-columns:1fr 1.35fr 1.55fr; border:1px solid var(--line); border-radius:3pt; margin:6pt 0 2pt; }
+  .facts div{ padding:5pt 7pt; border-left:1px solid var(--line); }
+  .facts div:first-child{ border-left:0; }
+  .facts b{ display:block; font-size:7pt; color:var(--mute); font-weight:500; letter-spacing:.04em; margin-bottom:1pt; }
+  .facts div > span{ font-weight:700; font-size:8.6pt; }
+  .src{ font-size:6.9pt; color:var(--mute); margin:0 0 3pt; }
+
+  h2{ font-size:9.6pt; font-weight:900; margin:7pt 0 3.5pt; }
+  h2 i{ font-style:normal; display:inline-block; width:14pt; height:14pt; line-height:14pt; text-align:center;
+    background:var(--ink); color:#fff; border-radius:2pt; font-size:7.6pt; margin-right:5pt; vertical-align:1pt; }
+  p{ margin:0 0 3pt; }
+
+  table{ width:100%; border-collapse:collapse; font-size:8.1pt; }
+  th{ text-align:left; font-weight:700; font-size:7.4pt; color:var(--sub); background:var(--soft);
+    padding:3.5pt 5pt; border-top:1px solid var(--ink); border-bottom:1px solid var(--line); }
+  td{ padding:3.6pt 5pt; border-bottom:1px solid var(--line); vertical-align:top; }
+  .code{ font-weight:700; white-space:nowrap; }
+  .ttl{ font-weight:700; display:block; font-size:8.4pt; }
+  .hook{ display:inline-block; background:var(--soft); padding:0 3pt; border-radius:2pt; font-weight:500; }
+  .pri{ color:var(--accent); font-weight:700; }
+  .note{ font-size:7.2pt; color:var(--mute); margin-top:3pt; }
+
+  .two{ display:grid; grid-template-columns:1fr 1fr; gap:10pt; }
+  .tl td{ padding:2.5pt 5pt; }
+  .tl td:first-child{ white-space:nowrap; font-weight:700; width:24%; }
+  .chk{ list-style:none; margin:0; padding:0; }
+  .chk li{ position:relative; padding:2.1pt 0 2.1pt 13pt; border-bottom:1px dotted var(--line); }
+  .chk li:before{ content:""; position:absolute; left:0; top:3.9pt; width:7pt; height:7pt; border:1px solid var(--ink); border-radius:1pt; }
+  .tag{ font-size:6.8pt; font-weight:700; padding:0 3pt; border-radius:2pt; margin-left:3pt; white-space:nowrap; }
+  .tag.pend{ color:var(--accent); background:var(--accent-soft); }
+  .crew{ border:1px solid var(--line); border-radius:3pt; padding:5pt 7pt; margin-bottom:5pt; }
+  .crew b{ font-weight:700; }
+  .crew .row{ display:flex; justify-content:space-between; gap:6pt; padding:1.5pt 0; }
+  .crew .row > span:last-child{ color:var(--sub); text-align:right; }
+
+  .deliv{ display:grid; grid-template-columns:repeat(3,1fr); gap:5pt; }
+  .deliv div{ background:var(--soft); border-radius:3pt; padding:4pt 6pt; line-height:1.4; }
+  .deliv b{ display:block; font-size:7.4pt; color:var(--sub); margin-bottom:1pt; }
+
+  .foot{ margin-top:6pt; padding-top:4pt; border-top:1px solid var(--line); display:flex; justify-content:space-between;
+    font-size:6.9pt; color:var(--mute); }
+
+@media screen{
+ body{background:#f3f4f6;font-size:16px;line-height:1.65;padding:24px 16px;color:#16181d}
+ .page{max-width:1060px;padding:32px;background:#fff;border-radius:12px;box-shadow:0 6px 25px #16181d0a}
+ .download-bar{max-width:1060px;margin:0 auto 16px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+ .download-bar a{display:inline-flex;min-height:44px;align-items:center;justify-content:center;padding:10px 18px;border-radius:8px;background:#16181d;color:#fff;text-decoration:none;font-size:15px;font-weight:700}
+ .download-bar a.secondary{background:#fff;color:#16181d;border:1px solid #d9dce2}
+ .download-bar span{color:#4a4f5a;font-size:14px}
+ h1{font-size:26px;white-space:normal}h1 small{font-size:16px}.wordmark{font-size:26px}
+ h2{font-size:20px;margin-top:24px}.meta,.badge{font-size:13px}
+ table,td,th{font-size:15px}td,th{padding:10px 8px}
+ .facts div>span,.ttl{font-size:16px}.facts b,.info b,.se b,.rules b{font-size:13px}
+ .src,.note,.foot,.ep-note,.memo,.tl .cuts{font-size:13px}.ep-h b{font-size:20px}.ep-h>span{font-size:14px}
+ .ep{margin-top:24px;padding:16px}.se div,.rules div{font-size:15px;padding:12px}.t{font-size:13px}
+ .pb{break-before:auto}.chk li{padding-top:8px;padding-bottom:8px}.chk li:before{top:14px}
+}
+@media screen and (max-width:700px){
+ body{padding:12px 8px}.page{padding:20px 14px;border-radius:10px}
+ .top,.titlebar,.ep-h,.crew .row{display:block}.meta{text-align:left;margin-top:10px}.badge{display:inline-block;margin-top:12px}
+ .facts,.info,.two,.se,.fall,.deliv,.rules{grid-template-columns:1fr;gap:10px}
+ .facts div,.info div{border-left:0;border-top:1px solid #d9dce2;padding:12px}.facts div:first-child,.info div:first-child{border-top:0}
+ .crew .row>span:last-child{text-align:left;display:block}.ep-h>span{display:block;white-space:normal;margin-top:8px}
+ .mobile-cards,.mobile-cards tbody,.mobile-cards tr,.mobile-cards td{display:block;width:100%!important}
+ .mobile-cards thead{display:none}.mobile-cards tr{border:1px solid #d9dce2;border-radius:8px;margin:12px 0;padding:8px}
+ .mobile-cards td{border:0;padding:5px 8px;white-space:normal}.mobile-cards td[data-label]:before{content:attr(data-label) ' ';display:block;color:#7c8290;font-size:12px;font-weight:700}
+ .mobile-cards td.c{width:auto!important;text-align:left}.mobile-cards .no{font-size:17px}.foot{gap:8px}.ep{padding:12px}
+ .tl td:first-child{white-space:normal;width:auto}.tl td{font-size:14px;padding:8px 5px}
+ h2 em{display:block;margin-left:0;margin-top:4px;font-size:13px}
+}
+@media print{.download-bar{display:none!important}}
+
+</style>
+</head>
+<body>
+<nav class="download-bar" aria-label="PDF 문서"><a href="ddp-client-guide.pdf" target="_blank" rel="noopener">PDF 보기</a><a class="secondary" href="ddp-client-guide.pdf" download>PDF 다운로드</a><span>A4 1장 · 고객 승인 전 기획안</span></nav>
+<div class="page">
+
+  <div class="top">
+    <div class="wordmark">ARTren</div>
+    <div class="meta">수신 이지원 선임님 · 발신 ARTren 최지훈<br>작성 2026.10.14 · 촬영 당일 전달용</div>
+  </div>
+
+  <div class="titlebar">
+    <h1>DDP디자인스토어 성수 팝업 숏폼 3편
+      <small>「서울조각상점」 현장 촬영 기획 및 협조 요청안</small></h1>
+    <div class="badge">고객 승인 전<br>기획·협조 요청안</div>
+  </div>
+
+  <div class="facts">
+    <div><b>촬영</b><span>10.14(수) 14:00–16:00</span></div>
+    <div><b>장소</b><span>서울 성동구 동일로 79<br>성수 ZZON 1층</span></div>
+    <div><b>팝업 운영</b><span>10.14–25 · 11:00–19:00 (25일 18:00 종료)<br>입장 무료 · 체험 유료</span></div>
+  </div>
+  <p class="src">팝업 운영 정보는 DDP디자인스토어 공식 공지(10.13) 기준입니다. 운영 주체·현장 담당자는 현장에서 확인합니다.</p>
+
+  <h2><i>1</i>목적</h2>
+  <p>팝업의 <b>판매 상품</b>과 <b>체험 흐름(스탬프 키링 · 티셔츠 제작)</b>을 세로 숏폼 3편으로 기록합니다. 손과 상품, 공간 중심으로 촬영하며 출연자 얼굴과 음성은 사용하지 않습니다. DDP-01-01 1편을 10/16에 우선 납품합니다.</p>
+
+  <h2><i>2</i>3편 요약과 첫 장면 아이디어</h2>
+  <table class="mobile-cards">
+    <thead><tr><th style="width:12%">코드 · 길이</th><th style="width:18%">제목</th><th style="width:26%">첫 장면 (창작 훅)</th><th>흐름</th><th style="width:11%">납품</th></tr></thead>
+    <tbody>
+      <tr>
+        <td data-label="코드 · 길이"><span class="code">DDP-01-01</span><br>35–40초</td>
+        <td data-label="제목"><span class="ttl">서울 한 조각<br>직접 골라봤습니다</span></td>
+        <td data-label="첫 장면 (창작 훅)">진열 상품 접사<br><span class="hook">“구경만 하는 곳인 줄 알았는데?”</span></td>
+        <td data-label="흐름">상품 접사 → 허용 시 같은 상품을 손으로 드는 매치컷 → 간판·공간 → 판매 상품 3종 → 고른 상품 엔딩 (상품 취급 허가가 없으면 선택한 진열 상품 정지 접사로 마무리). 영상 안에서 <b>입장 무료</b>와 <b>상품 구매·체험 유료</b>를 구분해 안내</td>
+        <td data-label="납품"><span class="pri" style="white-space:nowrap">10/16 우선</span><br>시각 협의</td>
+      </tr>
+      <tr>
+        <td data-label="코드 · 길이"><span class="code">DDP-01-02</span><br>22–28초</td>
+        <td data-label="제목"><span class="ttl">이 종이가<br>가방에 달리기까지</span></td>
+        <td data-label="첫 장면 (창작 훅)">손바닥 위 빈 종이<br><span class="hook">“이 종이가 가방에 달린다고?”</span></td>
+        <td data-label="흐름">문양 선택 → 스탬프 찍기 → 별도 구매 케이스에 결합 → 같은 손바닥 위치의 완성 키링 → 가방에 달기</td>
+        <td data-label="납품">별도 협의</td>
+      </tr>
+      <tr>
+        <td data-label="코드 · 길이"><span class="code">DDP-01-03</span><br>25–30초</td>
+        <td data-label="제목"><span class="ttl">제가 한 건<br>고르기까지</span></td>
+        <td data-label="첫 장면 (창작 훅)">그래픽 13종 선택지 앞<br><span class="hook">“제가 한 건 이거 고른 것뿐”</span></td>
+        <td data-label="흐름">후보 비교 → 선택 → 주문 → 담당 직원의 프레스 제작 → 완성품. 실제 전후가 확보될 때만 전후 비교 연출</td>
+        <td data-label="납품">별도 협의</td>
+      </tr>
+    </tbody>
+  </table>
+  <p class="note">· 판매 상품 3종 후보: 서울복태 · 서울채집가방 · 랜드마크 핀배지 — 현장 현물 명칭·재고 확인 후 확정합니다. · 훅 문구는 창작안이며 성과가 검증된 문구가 아닙니다.</p>
+
+  <div class="two">
+    <div>
+      <h2><i>3</i>당일 일정 (제안)</h2>
+      <table class="tl">
+        <tbody>
+          <tr><td>14:00–14:10</td><td>촬영 조건 확인 · 안전 세팅</td></tr>
+          <tr><td>14:10–14:30</td><td>01편 공간·판매 상품</td></tr>
+          <tr><td>14:30–14:55</td><td>02편 스탬프 키링 체험</td></tr>
+          <tr><td>14:55–15:20</td><td>03편 티셔츠 제작 <span style="color:var(--mute)">(직원 일정에 따라 순서 교체)</span></td></tr>
+          <tr><td>15:20–15:35</td><td>첫·끝 장면 매치컷 · 썸네일</td></tr>
+          <tr><td>15:35–15:50</td><td>01편 누락 컷 보완</td></tr>
+          <tr><td>15:50–16:00</td><td>재생 확인 · 재료 반납 · 철수</td></tr>
+        </tbody>
+      </table>
+      <p class="note">16:00 종료. 체험 촬영이 어려우면 01편 완결을 우선하고, 02·03편 제작 여부는 따로 협의드립니다.</p>
+    </div>
+    <div>
+      <h2><i>4</i>협조 요청 <span class="tag pend">모두 미확정</span></h2>
+      <div class="crew">
+        <div class="row"><b>현장 인원 (조건부 3명)</b><span></span></div>
+        <div class="row"><span>운영 직원 1</span><span>스탬프·프레스 공정과 운영 겸임 가능 여부 확인<br>불가 시 공정 담당 1명 추가 요청</span></div>
+        <div class="row"><span>성인 손모델 1</span><span>얼굴·음성 노출 없음</span></div>
+        <div class="row"><span>촬영 1</span><span>ARTren 최지훈</span></div>
+      </div>
+      <p class="note" style="margin:0 0 2pt;color:var(--ink);font-weight:500">도착 전 촬영 허가 · 출연/게시/광고 활용 동의 · 샘플/구매비 부담 · 체험 시간 협의를 요청드립니다.</p>
+      <ul class="chk">
+        <li>촬영 허가 및 촬영 가능 구역</li>
+        <li>직원·손모델 출연 및 게시·광고 활용 동의</li>
+        <li>체험 재료·샘플 제공 여부와 구매 비용 부담 주체</li>
+        <li>체험 촬영 시간 (방문객 이용과 겹치지 않는 시간대)</li>
+        <li>판매 상품 3종 현물 명칭·재고</li>
+      </ul>
+    </div>
+  </div>
+
+  <h2><i>5</i>납품 기준</h2>
+  <div class="deliv">
+    <div><b>형식 (제안)</b>세로 9:16, 자막 포함 완성본</div>
+    <div><b>납기</b>01편 10/16 (시각 협의)<br>02·03편 별도 협의</div>
+    <div><b>가격·혜택</b>가격 미표시. 입장 무료와 구매·체험 유료만 구분</div>
+    <div><b>방문객</b>동의 없는 촬영 없음. 얼굴이 식별되는 컷은 사용하지 않음</div>
+    <div><b>안전</b>프레스는 운영 담당 직원만 조작. 촬영자는 안전거리 유지</div>
+    <div><b>상품 표현</b>디자인 의미만 소개. 효능·혜택을 암시하는 표현 없음</div>
+  </div>
+
+  <div class="foot">
+    <span>ARTren · 본 문서는 고객 승인 전 기획·협조 요청안이며 확정 사항이 아닙니다.</span>
+    <span>1 / 1</span>
+  </div>
+
+</div>
+</body>
+</html>
